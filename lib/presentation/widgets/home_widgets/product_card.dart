@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shop_vista/helpers/helper.dart';
 import 'package:shop_vista/presentation/home/product_detailed.dart/detailed_product.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/discount_container.dart';
@@ -8,8 +9,16 @@ import 'package:shop_vista/presentation/widgets/home_widgets/rounded_image.dart'
 import 'package:shop_vista/utils/theme/product_shadow/product_shadow.dart';
 
 class TProductCardWidget extends StatelessWidget {
+  final String imageUrl;
+  final String amount;
+  final String brand;
+  final String productName;
   const TProductCardWidget({
     Key? key,
+    required this.imageUrl,
+    required this.amount,
+    required this.brand,
+    required this.productName,
   }) : super(key: key);
 
   @override
@@ -29,14 +38,14 @@ class TProductCardWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           color: dark ? Colors.grey : Color.fromARGB(255, 238, 236, 236),
         ),
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.all(3.0),
           child: Column(
             children: [
               Stack(
                 children: [
                   // Product image
-                  TRoundedImage(imageUrl: "assets/products/shoes4.jpg"),
+                  TRoundedImage( isNetworkImage: true,imageUrl:imageUrl),
                   TDiscountContainer(),
                   TFavIcon(),
                 ],
@@ -45,9 +54,9 @@ class TProductCardWidget extends StatelessWidget {
                 height: 5,
               ),
               TProductDetails(
-                amount: '35.00',
-                brand: 'Nike',
-                productName: 'Nike sports shoes',
+                amount: amount,
+                brand: brand,
+                productName: productName,
               ),
             ],
           ),

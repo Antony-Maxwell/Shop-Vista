@@ -22,7 +22,7 @@ class TBannerWidget extends StatelessWidget {
           key: UniqueKey(),
           imageUrl: imageUrl,
           fit: BoxFit.cover,
-          ),
+        ),
       ),
     );
   }

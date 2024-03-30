@@ -5,15 +5,15 @@ abstract class CategoriesState {}
 
 class CategoriesInitial extends CategoriesState {}
 
-class CategoryLoading extends CategoriesState{}
+class CategoryLoading extends CategoriesState {}
 
-class CategoryLoaded extends CategoriesState{
+class CategoryLoaded extends CategoriesState {
   final List<CategoryModel> Categories;
 
   CategoryLoaded(this.Categories);
 }
 
-class CategoryError extends CategoriesState{
+class CategoryError extends CategoriesState {
   final String message;
   CategoryError(this.message);
 }

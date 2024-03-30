@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shop_vista/domain/core/main_failures.dart';
 import 'package:shop_vista/domain/home/banners/banners_respository.dart';
-import 'package:shop_vista/domain/home/banners_repo.dart';
+import 'package:shop_vista/domain/home/banners/banners_repo.dart';
 
 part 'banners_bloc_event.dart';
 part 'banners_bloc_state.dart';
@@ -25,7 +25,7 @@ class BannersBlocBloc extends Bloc<BannersEvent, BannersState> {
       );
       final Either<MainFailure, List<Banners>> bannersOption =
           await _bannersRepo.getBannersImage();
-          print(bannersOption.toString());
+      print(bannersOption.toString());
       emit(bannersOption.fold((failure) {
         return state.copyWith(
             isLoading: false, bannersSuccessFailureOption: Some(Left(failure)));

@@ -8,16 +8,18 @@ part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final CategoryRepository categoryRepository;
-  CategoriesBloc({required this.categoryRepository}) : super(CategoriesInitial()) {
+  CategoriesBloc({required this.categoryRepository})
+      : super(CategoriesInitial()) {
     on<FetchCategories>((_onFetchCategories));
   }
 
-  void _onFetchCategories(FetchCategories event, Emitter<CategoriesState>emit)async{
+  void _onFetchCategories(
+      FetchCategories event, Emitter<CategoriesState> emit) async {
     emit(CategoryLoading());
-    try{
+    try {
       final categories = await categoryRepository.getAllCategories();
       emit(CategoryLoaded(categories));
-    }catch (e){
+    } catch (e) {
       emit(CategoryError('Failed to fetch categories $e'));
     }
   }

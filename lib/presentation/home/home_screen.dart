@@ -47,7 +47,6 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: 5),
                   TDotsIndicator(),
                   TGridViewProduct(
-                    itemCount: 6,
                     mainAxisExnt: 265,
                   )
                 ],

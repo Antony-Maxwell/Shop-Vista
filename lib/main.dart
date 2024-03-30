@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_vista/application/banners_bloc/banners_bloc_bloc.dart';
-import 'package:shop_vista/application/bottom_navigation_bloc/bloc/bottom_navigation_bloc.dart';
-import 'package:shop_vista/application/categories/bloc/categories_bloc.dart';
-import 'package:shop_vista/application/page_indicator/bloc/page_indicator_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shop_vista/application/home/banners_bloc/banners_bloc_bloc.dart';
+import 'package:shop_vista/application/home/bottom_navigation_bloc/bloc/bottom_navigation_bloc.dart';
+import 'package:shop_vista/application/home/categories/bloc/categories_bloc.dart';
+import 'package:shop_vista/application/home/page_indicator/bloc/page_indicator_bloc.dart';
+import 'package:shop_vista/application/home/products/products_bloc.dart';
 import 'package:shop_vista/infrastructure/home/category/categories_impl.dart';
 import 'package:shop_vista/domain/core/di/injectable.dart';
 import 'package:shop_vista/presentation/auth/on_boarding_one.dart';
@@ -30,8 +31,12 @@ class myApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<CategoriesBloc>(create: (context) => CategoriesBloc(categoryRepository: CategoryRepository()),),
+        BlocProvider<CategoriesBloc>(
+          create: (context) =>
+              CategoriesBloc(categoryRepository: CategoryRepository()),
+        ),
         BlocProvider(create: (context) => getIt<BannersBlocBloc>()),
+        BlocProvider(create: (context) => getIt<ProductsBloc>(),),
         BlocProvider<BottomNavigationBloc>(
             create: (context) => BottomNavigationBloc()),
         BlocProvider<PageIndicatorBloc>(

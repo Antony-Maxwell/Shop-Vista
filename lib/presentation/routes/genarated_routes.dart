@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_vista/application/bottom_navigation_bloc/bloc/bottom_navigation_bloc.dart';
+import 'package:shop_vista/application/home/bottom_navigation_bloc/bloc/bottom_navigation_bloc.dart';
 import 'package:shop_vista/presentation/widgets/navigation_menu.dart';
 
 class RouteGenerator {

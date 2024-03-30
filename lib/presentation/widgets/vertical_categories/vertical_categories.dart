@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_vista/helpers/helper.dart';
 
 class TVerticalCategories extends StatelessWidget {
-  const 
-  TVerticalCategories({
+  const TVerticalCategories({
     super.key,
     required this.image,
     required this.title,
@@ -16,7 +15,6 @@ class TVerticalCategories extends StatelessWidget {
   final Color textColor;
   final Color? backGroundColor;
   final void Function()? ontap;
-  
 
   @override
   Widget build(BuildContext context) {

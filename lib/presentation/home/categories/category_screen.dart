@@ -20,7 +20,6 @@ class CategoryScreen extends StatelessWidget {
             child: Column(
               children: [
                 TGridViewProduct(
-                  itemCount: 8,
                   mainAxisExnt: 280,
                 )
               ],
