@@ -6,14 +6,22 @@ class StockCheck extends StatelessWidget {
     required this.stock,
   });
 
-  final String stock;
+  final int stock;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    if(stock<=0){
+      return const Row(
       children: [
-        Text('Stock : $stock'),
+        Text('Stock : Outof stock'),
       ],
     );
+    }else{
+      return Row(
+      children: [
+        Text('Stock : Instock'),
+      ],
+    );
+    }
   }
 }

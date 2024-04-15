@@ -187,12 +187,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     User? user;
     // Perform email/password sign-up
-    user = await _auth.signUpWithEmailandPassword(email, password, context);
+    user = await _auth.signUpWithEmailandPassword(email, password, context, userName,  firstName, lastName, '', int.parse(phoneNumber));
 
     // If user is null, email/password sign-up failed
     if (user == null) {
       print('Email/Password Sign-Up failed');
       return;
+    }else{
+      print('Success');
     }
 
     // Navigate to HomeScreen after successful sign-up or Google Sign-In

@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'products.g.dart';
 
 @JsonSerializable()
@@ -13,13 +12,13 @@ class Products {
   String? description;
   @JsonKey(name: 'Images')
   List<String>? images;
-  @JsonKey(name: 'ProductsAttributes')
+  @JsonKey(name: 'ProductAttributes')
   List<ProductsAttribute>? productsAttributes;
   @JsonKey(name: 'ProductType')
   String? productType;
   @JsonKey(name: 'Title')
   String? title;
-  @JsonKey(name: 'Thumbnail')
+  @JsonKey(name: 'thumbnail')
   String? thumbnail;
   @JsonKey(name: 'Brand')
   Brand? brand;
@@ -32,6 +31,8 @@ class Products {
   String? sku;
   @JsonKey(name: 'Stock')
   int? stock;
+  @JsonKey(name: 'Id')
+  String? id;
 
   Products({
     this.categoryId,
@@ -48,6 +49,7 @@ class Products {
     this.isFeatured,
     this.sku,
     this.stock,
+    this.id,
   });
 
   factory Products.fromJson(Map<String, dynamic> json) {
@@ -56,8 +58,6 @@ class Products {
 
   Map<String, dynamic> toJson() => _$ProductsToJson(this);
 }
-
-
 
 @JsonSerializable()
 class ProductsAttribute {
@@ -74,7 +74,6 @@ class ProductsAttribute {
 
   Map<String, dynamic> toJson() => _$ProductsAttributeToJson(this);
 }
-
 
 @JsonSerializable()
 class ProductVariation {
@@ -113,7 +112,6 @@ class ProductVariation {
   Map<String, dynamic> toJson() => _$ProductVariationToJson(this);
 }
 
-
 @JsonSerializable()
 class Brand {
   @JsonKey(name: 'Id')
@@ -139,7 +137,6 @@ class Brand {
   Map<String, dynamic> toJson() => _$BrandToJson(this);
 }
 
-
 @JsonSerializable()
 class AttributeValues {
   @JsonKey(name: 'Size')
@@ -155,4 +152,3 @@ class AttributeValues {
 
   Map<String, dynamic> toJson() => _$AttributeValuesToJson(this);
 }
-

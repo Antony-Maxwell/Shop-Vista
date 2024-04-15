@@ -1,7 +1,7 @@
 part of 'products_bloc.dart';
 
 @freezed
-class ProductsState with _$ProductsState{
+class ProductsState with _$ProductsState {
   const factory ProductsState({
     required List<Products> productsList,
     required bool isLoading,
@@ -9,8 +9,8 @@ class ProductsState with _$ProductsState{
   }) = _Initial;
 
   factory ProductsState.initial() => const ProductsState(
-    hasError: false,
-    isLoading: false,
-    productsList: [],
-  );
+        hasError: false,
+        isLoading: false,
+        productsList: [],
+      );
 }

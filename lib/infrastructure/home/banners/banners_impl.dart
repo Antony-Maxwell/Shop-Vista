@@ -17,7 +17,7 @@ class BannersRepository implements BannersRepo {
         final bannersList = snapShot.docs
             .map((document) => Banners.fromSnapshot(document))
             .toList();
-        print(bannersList);
+        // print(bannersList);
         return Right(bannersList);
       } else {
         return const Left(MainFailure.serverFailure());

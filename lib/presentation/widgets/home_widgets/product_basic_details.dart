@@ -11,7 +11,7 @@ class TProductDetails extends StatelessWidget {
 
   final String productName;
   final String brand;
-  final String amount;
+  final amount;
 
   @override
   Widget build(BuildContext context) {

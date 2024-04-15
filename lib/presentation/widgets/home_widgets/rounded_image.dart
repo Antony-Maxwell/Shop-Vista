@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:shop_vista/presentation/widgets/product_cart/shimmer.dart';
 
 class TRoundedImage extends StatelessWidget {
   const TRoundedImage(
@@ -8,7 +11,7 @@ class TRoundedImage extends StatelessWidget {
       required this.imageUrl,
       this.applyImageRadius = true,
       this.border,
-      this.backGroundColor = Colors.yellow,
+      this.backGroundColor = Colors.grey,
       this.fit,
       this.padding,
       this.isNetworkImage = false,
@@ -39,16 +42,25 @@ class TRoundedImage extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: ClipRRect(
-          borderRadius: applyImageRadius
-              ? BorderRadius.circular(borderRadius)
-              : BorderRadius.zero,
-          child: Image(
-            fit: fit,
-            image: isNetworkImage
-                ? NetworkImage(imageUrl)
-                : AssetImage(imageUrl) as ImageProvider,
-          ),
-        ),
+            borderRadius: applyImageRadius
+                ? BorderRadius.circular(borderRadius)
+                : BorderRadius.zero,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              fit: BoxFit.cover,
+              placeholder: (context, url) {
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                );
+              },
+            )),
       ),
     );
   }

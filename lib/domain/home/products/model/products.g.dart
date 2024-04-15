@@ -14,12 +14,12 @@ Products _$ProductsFromJson(Map<String, dynamic> json) => Products(
       description: json['Description'] as String?,
       images:
           (json['Images'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      productsAttributes: (json['ProductsAttributes'] as List<dynamic>?)
+      productsAttributes: (json['ProductAttributes'] as List<dynamic>?)
           ?.map((e) => ProductsAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
       productType: json['ProductType'] as String?,
       title: json['Title'] as String?,
-      thumbnail: json['Thumbnail'] as String?,
+      thumbnail: json['thumbnail'] as String?,
       brand: json['Brand'] == null
           ? null
           : Brand.fromJson(json['Brand'] as Map<String, dynamic>),
@@ -28,6 +28,7 @@ Products _$ProductsFromJson(Map<String, dynamic> json) => Products(
       isFeatured: json['isFeatured'] as bool?,
       sku: json['SKU'] as String?,
       stock: json['Stock'] as int?,
+      id: json['Id'] as String?,
     );
 
 Map<String, dynamic> _$ProductsToJson(Products instance) => <String, dynamic>{
@@ -35,16 +36,17 @@ Map<String, dynamic> _$ProductsToJson(Products instance) => <String, dynamic>{
       'ProductVariations': instance.productVariations,
       'Description': instance.description,
       'Images': instance.images,
-      'ProductsAttributes': instance.productsAttributes,
+      'ProductAttributes': instance.productsAttributes,
       'ProductType': instance.productType,
       'Title': instance.title,
-      'Thumbnail': instance.thumbnail,
+      'thumbnail': instance.thumbnail,
       'Brand': instance.brand,
       'Price': instance.price,
       'SalePrice': instance.salePrice,
       'isFeatured': instance.isFeatured,
       'SKU': instance.sku,
       'Stock': instance.stock,
+      'Id': instance.id,
     };
 
 ProductsAttribute _$ProductsAttributeFromJson(Map<String, dynamic> json) =>

@@ -15,16 +15,18 @@ part 'products_bloc.freezed.dart';
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final ProductsServices _prodService;
   ProductsBloc(this._prodService) : super(ProductsState.initial()) {
-    on<LoadProductDetails>((event, emit) async{
-      emit(const ProductsState(productsList: [], isLoading: true, hasError: false));
+    on<LoadProductDetails>((event, emit) async {
+      emit(const ProductsState(
+          productsList: [], isLoading: true, hasError: false));
       final _result = await _prodService.getProductsData();
       final newState = _result.fold((MainFailure failure) {
-        return const ProductsState(productsList: [], isLoading: false, hasError: true);
+        return const ProductsState(
+            productsList: [], isLoading: false, hasError: true);
       }, (List<Products> resp) {
-        return ProductsState(productsList: resp, isLoading: false, hasError: false);
+        return ProductsState(
+            productsList: resp, isLoading: false, hasError: false);
       });
       emit(newState);
-      
     });
   }
 }

@@ -98,12 +98,24 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                   kHeight,
                   kHeight,
                   Button(onTap: () {}),
-                  TextButton(onPressed: () {}, child: Text('Resend email'))
+                  TextButton(onPressed: () {
+                    resendVerificationEmail();
+                  }, child: Text('Resend email'))
                 ],
               ),
             ),
           ),
         );
+
+        void resendVerificationEmail() async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    await user?.sendEmailVerification();
+    print('Verification email sent');
+  } catch (e) {
+    print('Failed to send verification email: $e');
+  }
+}
 }
 
 class Button extends StatelessWidget {

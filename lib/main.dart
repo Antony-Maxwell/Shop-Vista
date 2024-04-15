@@ -5,8 +5,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shop_vista/application/home/banners_bloc/banners_bloc_bloc.dart';
 import 'package:shop_vista/application/home/bottom_navigation_bloc/bloc/bottom_navigation_bloc.dart';
 import 'package:shop_vista/application/home/categories/bloc/categories_bloc.dart';
+import 'package:shop_vista/application/home/get_cart/get_cart_bloc.dart';
+import 'package:shop_vista/application/home/get_wishlist/getwishlist_bloc.dart';
 import 'package:shop_vista/application/home/page_indicator/bloc/page_indicator_bloc.dart';
 import 'package:shop_vista/application/home/products/products_bloc.dart';
+import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
+import 'package:shop_vista/application/home/wishlist/wishlist_bloc.dart';
+import 'package:shop_vista/application/store/brand_bloc/brand_bloc.dart';
+import 'package:shop_vista/application/store/cart_quantity/cart_count_bloc.dart';
 import 'package:shop_vista/infrastructure/home/category/categories_impl.dart';
 import 'package:shop_vista/domain/core/di/injectable.dart';
 import 'package:shop_vista/presentation/auth/on_boarding_one.dart';
@@ -35,13 +41,18 @@ class myApp extends StatelessWidget {
           create: (context) =>
               CategoriesBloc(categoryRepository: CategoryRepository()),
         ),
+        BlocProvider(create: (context) => getIt<GetwishlistBloc>(),),
         BlocProvider(create: (context) => getIt<BannersBlocBloc>()),
-        BlocProvider(create: (context) => getIt<ProductsBloc>(),),
+        BlocProvider(create: (context) => getIt<GetCartBloc>()),
+        BlocProvider(create: (context) => getIt<ProductsBloc>()),
+        BlocProvider(create: (context) => getIt<UserBloc>(),),
+        BlocProvider(create: (context) => getIt<BrandBloc>(),),
+        BlocProvider<CartCountBloc>(create: (context) => CartCountBloc(),),
         BlocProvider<BottomNavigationBloc>(
             create: (context) => BottomNavigationBloc()),
         BlocProvider<PageIndicatorBloc>(
-          create: (context) => PageIndicatorBloc(),
-        )
+            create: (context) => PageIndicatorBloc()),
+        BlocProvider<WishlistBloc>(create: (context) => WishlistBloc(),),
       ],
       child: MaterialApp(
         themeMode: ThemeMode.system,
@@ -50,13 +61,22 @@ class myApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         onGenerateRoute: RouteGenerator().generateRoute,
-        home: StreamBuilder(
+        home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return const NavigationMenu();
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
               } else {
-                return OnBoardingOne();
+                if (snapshot.hasData) {
+                  User? user = snapshot.data;
+                  if (user!.emailVerified) {
+                    return NavigationMenu();
+                  } else {
+                    return OnBoardingOne();
+                  }
+                } else {
+                  return OnBoardingOne();
+                }
               }
               // return SplashScreen();
             }),

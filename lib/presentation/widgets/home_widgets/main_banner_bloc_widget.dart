@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_vista/application/home/banners_bloc/banners_bloc_bloc.dart';
 import 'package:shop_vista/application/home/page_indicator/bloc/page_indicator_bloc.dart';
+import 'package:shop_vista/presentation/widgets/home_widgets/banner_shimmer.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/banner_widgets.dart';
 
 class TMainBannerContainer extends StatelessWidget {
@@ -18,7 +19,7 @@ class TMainBannerContainer extends StatelessWidget {
         return BlocBuilder<BannersBlocBloc, BannersState>(
           builder: (ctx, bannerState) {
             return bannerState.isLoading || bannerState.banners == null
-                ? const CircularProgressIndicator()
+                ? BannerShimmer().buildShimmer()
                 : CarouselSlider.builder(
                     itemCount: bannerState.banners!.length,
                     itemBuilder: (context, index, realIndex) {
@@ -28,13 +29,14 @@ class TMainBannerContainer extends StatelessWidget {
                       );
                     },
                     options: CarouselOptions(
+                      enlargeCenterPage: true,
                       onPageChanged: (index, reason) {
                         state.page = index;
                         BlocProvider.of<PageIndicatorBloc>(context)
                             .add(PageIndicatorEvent());
                       },
                       autoPlay: true,
-                      viewportFraction: 1,
+                      viewportFraction: 0.8,
                     ),
                   );
           },

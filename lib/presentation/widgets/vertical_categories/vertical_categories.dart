@@ -4,14 +4,14 @@ import 'package:shop_vista/helpers/helper.dart';
 class TVerticalCategories extends StatelessWidget {
   const TVerticalCategories({
     super.key,
-    required this.image,
+    this.image,
     required this.title,
     this.textColor = Colors.white,
     this.backGroundColor,
     this.ontap,
   });
 
-  final String image, title;
+  final String? image, title;
   final Color textColor;
   final Color? backGroundColor;
   final void Function()? ontap;
@@ -33,12 +33,12 @@ class TVerticalCategories extends StatelessWidget {
                   color:
                       backGroundColor ?? (dark ? Colors.black : Colors.white),
                   borderRadius: BorderRadius.circular(100)),
-              child: Center(child: Image.network(image)),
+              child: Center(child: Image.network(image!)),
             ),
             SizedBox(
               width: 55,
               child: Text(
-                title,
+                title!,
                 style: Theme.of(context)
                     .textTheme
                     .labelMedium!

@@ -1,17 +1,54 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_vista/domain/User/user_model/user_model.dart';
 import 'package:shop_vista/presentation/auth/login.dart';
 import 'package:shop_vista/presentation/widgets/navigation_menu.dart';
 
 class FirebaseAuthServices {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<User?> signUpWithEmailandPassword(
-      String email, String password, BuildContext context) async {
+      String email, String password, BuildContext context, String username, String firstName, String lastName, String profilePic, int phoneNumber) async {
     try {
+      CollectionReference usersCollection = FirebaseFirestore.instance.collection('Users');
+
+      Address address = Address(
+          city: 'fgh',
+          country: 'cv',
+          name: 'ftgh',
+          phoneNumber: 65132,
+          postalCode: 'ycv',
+          state: 'gh',
+          street: 'oiuy',
+        );
+        List<Cart> cart =[
+          Cart(
+        productId: 'dummy id', 
+        quantity: '1'),
+        Cart(productId: 'dummy 23', quantity: '3')
+        ];
+      UserModel user = UserModel(
+        address: address,
+        cart: cart,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: password,
+        phoneNumber: phoneNumber,
+        profilePicture: profilePic,
+        userName: username,
+        wishlist: []
+      );
+      print('wooooooooooooooooooooooooooooooooooooooooooooooooooooowwwwwwwwwwwww');
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      await usersCollection.doc(credential.user?.uid).set({
+        ...user.toJson(),
+        'UserId' : credential.user?.uid,
+      });
       _showSnackbar(context, 'User registered successfully');
       return credential.user;
     } catch (e) {

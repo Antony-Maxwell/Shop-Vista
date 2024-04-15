@@ -1,37 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:shop_vista/presentation/home/product_detailed.dart/widgets/choice_chip_size.dart';
+import 'package:shop_vista/presentation/home/product_detailed.dart/widgets/color_from_name.dart';
 
 class TChoiceColors extends StatelessWidget {
   const TChoiceColors({
     super.key,
+    this.val1,
+    this.val2,
   });
+
+  final val1;
+  final val2;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         TChoiceChip(
-          label: 'Blue',
+          label: val1,
           selected: true,
-          color: Colors.blue,
+          color: GetColor().getColorFromName(val1),
           labelColor: Colors.white,
         ),
         TChoiceChip(
-          label: 'Green',
+          label: val2,
           selected: false,
-          color: Colors.green,
-          labelColor: Colors.white,
-        ),
-        TChoiceChip(
-          label: 'Red',
-          selected: false,
-          color: Colors.red,
-          labelColor: Colors.white,
-        ),
-        TChoiceChip(
-          label: 'Black',
-          selected: false,
-          color: Colors.black,
+          color: GetColor().getColorFromName(val2),
           labelColor: Colors.white,
         ),
       ],

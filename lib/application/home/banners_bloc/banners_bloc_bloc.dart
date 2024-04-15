@@ -25,7 +25,7 @@ class BannersBlocBloc extends Bloc<BannersEvent, BannersState> {
       );
       final Either<MainFailure, List<Banners>> bannersOption =
           await _bannersRepo.getBannersImage();
-      print(bannersOption.toString());
+      // print(bannersOption.toString());
       emit(bannersOption.fold((failure) {
         return state.copyWith(
             isLoading: false, bannersSuccessFailureOption: Some(Left(failure)));
