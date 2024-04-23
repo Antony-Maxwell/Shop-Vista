@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 part 'page_indicator_event.dart';
 part 'page_indicator_state.dart';

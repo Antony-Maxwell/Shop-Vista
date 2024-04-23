@@ -8,6 +8,7 @@ import 'package:shop_vista/domain/core/snackbar/custom_snackbar.dart';
 
 class AddToCartImplementation{
   Future<Either<MainFailure, Cart>> setCart(String userId, String productId, String quantity, BuildContext context, String size, String color) async {
+    print(quantity);
     try {
       CollectionReference usersCollection = FirebaseFirestore.instance.collection('Users');
 
@@ -18,7 +19,7 @@ class AddToCartImplementation{
       int existingProductIndex = cart.indexWhere((item) => item['ProductId'] == productId);
 
       if (existingProductIndex != -1) {
-        cart[existingProductIndex]['Quantity'] = quantity;
+        // cart[existingProductIndex]['Quantity'] = quantity;
         CustomSnackBar().showErrorSnackBar(context, 'Product already in cart!..');
       } else {
         cart.add({'ProductId': productId, 'Quantity': quantity, 'Size' : size, 'Color' : color});
@@ -31,7 +32,7 @@ class AddToCartImplementation{
 
       return Right(Cart(productId: productId, quantity: quantity));
     } catch (e) {
-      return Left(MainFailure.serverFailure());
+      return const Left(MainFailure.serverFailure());
     }
   }
 }

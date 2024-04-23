@@ -5,6 +5,7 @@ import 'package:shop_vista/infrastructure/emailandpass_auth_impl/firebase_auth_s
 import 'package:shop_vista/infrastructure/facebook_auth_impl/facebook_auth_service.dart';
 import 'package:shop_vista/infrastructure/google_impl/google_auth_service.dart';
 import 'package:shop_vista/presentation/auth/sign_up.dart';
+import 'package:shop_vista/presentation/widgets/blue_button.dart';
 import 'package:shop_vista/presentation/widgets/navigation_menu.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -80,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 50,
                       ),
-                      sign(
+                      Sign(
                         onTap: () {
                           _auth.signInWithEmailandPassword(
                               _emailController.text,
@@ -95,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 15,
                       ),
-                      sign(
+                      const Sign(
                         fontColor: Colors.black,
                         title: 'Create Account',
                         color: const Color.fromARGB(255, 224, 224, 224),
@@ -200,64 +201,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 )
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class sign extends StatelessWidget {
-  final VoidCallback? onTap;
-  sign({
-    this.onTap,
-    required this.title,
-    required this.color,
-    required this.fontColor,
-    required this.isSignUp,
-    super.key,
-  });
-
-  String title;
-  Color color;
-  Color fontColor;
-  bool isSignUp;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: isSignUp
-          ? () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return SignUpScreen();
-                },
-              ));
-            }
-          : onTap,
-      child: Container(
-        height: 45,
-        decoration: BoxDecoration(
-          boxShadow: const [
-            BoxShadow(
-                color: Colors.grey,
-                offset: Offset(2.0, 2.0),
-                blurRadius: 2.0,
-                spreadRadius: 2.0)
-          ],
-          borderRadius: BorderRadius.circular(15),
-          color: color,
-        ),
-        width: double.infinity,
-        child: Center(
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: fontColor,
             ),
           ),
         ),

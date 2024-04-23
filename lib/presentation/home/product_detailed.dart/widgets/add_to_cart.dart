@@ -4,7 +4,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:shop_vista/application/home/products/products_bloc.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 import 'package:shop_vista/application/store/cart_quantity/cart_count_bloc.dart';
-import 'package:shop_vista/domain/core/snackbar/custom_snackbar.dart';
 import 'package:shop_vista/helpers/helper.dart';
 import 'package:shop_vista/infrastructure/user_detail_imp/cart/add_to_cart_impl.dart';
 
@@ -91,7 +90,9 @@ class TBottomAddtoCart extends StatelessWidget {
                     builder: (context, cartCounterState) {
                       return GestureDetector(
                         onTap: () async {
-                          AddToCartImplementation().setCart(state.user.userId!, productId, cartCounterState.cartCount.toString(), context, 'EU 34', 'Blue');
+                          print(cartCounterState.cartCount);
+                          AddToCartImplementation().setCart(state.user.userId, productId, cartCounterState.cartCount.toString(), context, 'EU 34', 'Blue');
+                          context.read<CartCountBloc>().add(ResetCart());
                         },
                         child: Container(
                           height: 50,

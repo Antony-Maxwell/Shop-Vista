@@ -25,7 +25,7 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {
                 return Navigator.pop(context);
               },
-              icon: Icon(Iconsax.arrow_left))
+              icon: const Icon(Iconsax.arrow_left))
           : leadingIcon != null
               ? IconButton(onPressed: leadingOnPressed, icon: Icon(leadingIcon))
               : null,
@@ -36,5 +36,5 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(80);
+  Size get preferredSize => const Size.fromHeight(80);
 }

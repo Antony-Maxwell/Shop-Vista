@@ -15,10 +15,10 @@ List<NavigationDestination> bottomNavItems = const <NavigationDestination>[
 ];
 
 List<Widget> bottomNavScreens = <Widget>[
-  HomeScreen(),
-  StoreScreen(),
-  WishlistScreen(),
-  ProfileScreen(),
+  const HomeScreen(),
+  const StoreScreen(),
+  const WishlistScreen(),
+  const ProfileScreen(),
 ];
 
 class NavigationMenu extends StatelessWidget {

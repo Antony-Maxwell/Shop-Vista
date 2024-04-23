@@ -38,25 +38,25 @@ class DetailedMainImage extends StatelessWidget {
               child: SizedBox(
                 height: 80,
                 child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemBuilder: (_, index) {
-                      final subImg = subImages[index];
-                      return TRoundedImage(
-                        width: 80,
-                        backGroundColor:
-                            dark ? Colors.grey.shade600 : Colors.white,
-                        border: Border.all(color: Colors.grey),
-                        padding: const EdgeInsets.all(10),
-                        imageUrl: subImg,
-                        isNetworkImage: true,
-                      );
-                    },
-                    separatorBuilder: (_, __) => const SizedBox(
-                          width: 10,
-                        ),
-                    itemCount: 4),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemBuilder: (_, index) {
+                    final subImg = subImages[index];
+                    return TRoundedImage(
+                      width: 80,
+                      backGroundColor: dark ? Colors.grey.shade600 : Colors.white,
+                      border: Border.all(color: Colors.grey),
+                      padding: const EdgeInsets.all(10),
+                      imageUrl: subImg,
+                      isNetworkImage: true,
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(
+                    width: 10,
+                  ),
+                  itemCount: 4,
+                ),
               ),
             ),
             const TAppBar(

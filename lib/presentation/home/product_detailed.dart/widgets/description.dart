@@ -16,11 +16,11 @@ class Description extends StatelessWidget {
       trimMode: TrimMode.Line,
       trimCollapsedText: '  Show more',
       trimExpandedText: '  Less',
-      moreStyle: TextStyle(
+      moreStyle: const TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w800,
       ),
-      lessStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+      lessStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
     );
   }
 }

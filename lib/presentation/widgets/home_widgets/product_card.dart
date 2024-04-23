@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 import 'package:shop_vista/domain/home/products/model/products.dart';
 import 'package:shop_vista/helpers/helper.dart';
 import 'package:shop_vista/presentation/home/product_detailed.dart/detailed_product.dart';
-import 'package:shop_vista/presentation/home/product_detailed.dart/widgets/description.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/discount_container.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/fav_icon.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/product_basic_details.dart';
@@ -79,16 +77,16 @@ class TProductCardWidget extends StatelessWidget {
           decoration: BoxDecoration(
             boxShadow: [TShadowStyle.verticalProductShadow],
             borderRadius: BorderRadius.circular(16),
-            color: dark ? Colors.grey : Color.fromARGB(255, 238, 236, 236),
+            color: dark ? Colors.grey : const Color.fromARGB(255, 238, 236, 236),
           ),
           child: Padding(
-            padding: EdgeInsets.all(3.0),
+            padding: const EdgeInsets.all(3.0),
             child: Column(
               children: [
                 Stack(
                   children: [
                     // Product image
-                    TRoundedImage(isNetworkImage: true, imageUrl: imageUrl),
+                    TRoundedImage( width: double.infinity,  height:  177,isNetworkImage: true, imageUrl: imageUrl),
                     TDiscountContainer(
                       ogPrice: amount,
                       salePrice:salePrice,

@@ -22,7 +22,7 @@ class RemoveFromWishlist{
       } else {
         // Product not found in wishlist, show error snackbar
         CustomSnackBar().showErrorSnackBar(context, 'Product not found in wishlist');
-        return Right(false);
+        return const Right(false);
       }
 
       // Create a map with updated wishlist data
@@ -33,10 +33,10 @@ class RemoveFromWishlist{
       print('success');
 
       // Return Right indicating success
-      return Right(true);
+      return const Right(true);
     } catch (e) {
       // Return Left with a MainFailure indicating failure
-      return Left(MainFailure.serverFailure());
+      return const Left(MainFailure.serverFailure());
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_vista/domain/User/user_model/user_model.dart';
 import 'package:shop_vista/domain/core/main_failures.dart';
 import 'package:shop_vista/domain/core/snackbar/custom_snackbar.dart';
 
@@ -19,7 +18,7 @@ class AddToWishlist{
       if (wishlist.contains(productId)) {
         // Product already exists in the wishlist, show error snackbar
         CustomSnackBar().showErrorSnackBar(context, 'Oops!.. Product is already in wishlist');
-        return Right(false);
+        return const Right(false);
       } else {
         // Add the product to the wishlist
         wishlist.add(productId);
@@ -34,10 +33,10 @@ class AddToWishlist{
       print('success');
 
       // Return Right indicating success
-      return Right(true);
+      return const Right(true);
     } catch (e) {
       // Return Left with a MainFailure indicating failure
-      return Left(MainFailure.serverFailure());
+      return const Left(MainFailure.serverFailure());
     }
     }
   }

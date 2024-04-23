@@ -1,30 +1,41 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_vista/application/home/page_indicator/bloc/app_state.dart';
-import 'package:shop_vista/core/constants/sizedBox.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shop_vista/application/home/get_cart/get_cart_bloc.dart';
+import 'package:shop_vista/application/home/order/order_bloc.dart';
+import 'package:shop_vista/domain/User/user_model/user_model.dart';
+import 'package:shop_vista/infrastructure/user_detail_imp/user_detail_impl.dart';
+import 'package:shop_vista/presentation/home/cart/order/widgets/order_helper.dart';
+import 'package:shop_vista/presentation/home/home_screen.dart';
+import 'package:shop_vista/presentation/widgets/navigation_menu.dart';
 import 'package:upi_india/upi_india.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class UpiBottomSheet extends StatefulWidget {
   final orderId;
-  const UpiBottomSheet({required this.orderId, super.key});
+  const UpiBottomSheet({required this.orderId, super.key, required this.cartItems, required this.userId});
+  final List<Cart> cartItems;
+  final String userId;
 
   @override
   State<UpiBottomSheet> createState() => _UpiBottomSheetState();
 }
 
 class _UpiBottomSheetState extends State<UpiBottomSheet> {
-  var _razorpay = Razorpay();
+  final _razorpay = Razorpay();
 
   Future<UpiResponse>? _transaction;
-  UpiIndia _upiIndia = UpiIndia();
+  final UpiIndia _upiIndia = UpiIndia();
   List<UpiApp>? apps;
 
-  TextStyle header = TextStyle(
+  TextStyle header = const TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
 
-  TextStyle value = TextStyle(
+  TextStyle value = const TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 14,
   );
@@ -44,9 +55,9 @@ class _UpiBottomSheetState extends State<UpiBottomSheet> {
     super.initState();
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+   _handlePaymentSuccess(PaymentSuccessResponse response) async{
     print('payment success');
-    // Do something when payment succeeds
+    OrderHelper().updateOrder(widget.cartItems, widget.orderId);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -70,9 +81,9 @@ class _UpiBottomSheetState extends State<UpiBottomSheet> {
   }
 
   Widget displayUpiApps() {
-    if (apps == null)
-      return Center(child: CircularProgressIndicator());
-    else if (apps!.length == 0)
+    if (apps == null) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (apps!.isEmpty)
       return Center(
         child: Text(
           "No apps found to handle transaction.",
@@ -91,7 +102,7 @@ class _UpiBottomSheetState extends State<UpiBottomSheet> {
                   _transaction = initiateTransaction(app);
                   setState(() {});
                 },
-                child: Container(
+                child: SizedBox(
                   height: 100,
                   width: 100,
                   child: Column(
@@ -171,29 +182,34 @@ class _UpiBottomSheetState extends State<UpiBottomSheet> {
           Expanded(
             child: displayUpiApps(),
           ),
-          GestureDetector(
-            onTap: () {
-              var options = {
-                'key': 'rzp_test_8I0BLsGDT4H0Yd',
-                'amount': 50000, //in the smallest currency sub-unit.
-                'name': 'Shop Vista',
-                'description': 'Fine T-Shirt',
-                'timeout': 60, // in seconds
-                'prefill': {
-                  'contact': '9000090000',
-                  'email': 'gaurav.kumar@example.com'
-                }
-              };
-              _razorpay.open(options);
+          BlocBuilder<GetCartBloc, GetCartState>(
+            builder: (context, state) {
+              return GestureDetector(
+                onTap: () {
+                  var options = {
+                    'key': 'rzp_test_8I0BLsGDT4H0Yd',
+                    'amount': state.totalPrice * 100 +
+                        state.orderTotal, //in the smallest currency sub-unit.
+                    'name': 'Shop Vista',
+                    'description': 'Fine T-Shirt',
+                    'timeout': 60, // in seconds
+                    'prefill': {
+                      'contact': '9000090000',
+                      'email': 'gaurav.kumar@example.com'
+                    }
+                  };
+                  _razorpay.open(options);
+                },
+                child: SizedBox(
+                  height: 70,
+                  width: 70,
+                  child: Image.asset(
+                    "assets/rzrpay.jpg",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
             },
-            child: Container(
-              height: 70,
-              width: 70,
-              child: Image.asset(
-                "assets/rzrpay.jpg",
-                fit: BoxFit.cover,
-              ),
-            ),
           ),
           const Text('RazorPay'),
           Expanded(
@@ -213,14 +229,14 @@ class _UpiBottomSheetState extends State<UpiBottomSheet> {
 
                   // If we have data then definitely we will have UpiResponse.
                   // It cannot be null
-                  UpiResponse _upiResponse = snapshot.data!;
+                  UpiResponse upiResponse = snapshot.data!;
 
                   // Data in UpiResponse can be null. Check before printing
-                  String txnId = _upiResponse.transactionId ?? 'N/A';
-                  String resCode = _upiResponse.responseCode ?? 'N/A';
-                  String txnRef = _upiResponse.transactionRefId ?? 'N/A';
-                  String status = _upiResponse.status ?? 'N/A';
-                  String approvalRef = _upiResponse.approvalRefNo ?? 'N/A';
+                  String txnId = upiResponse.transactionId ?? 'N/A';
+                  String resCode = upiResponse.responseCode ?? 'N/A';
+                  String txnRef = upiResponse.transactionRefId ?? 'N/A';
+                  String status = upiResponse.status ?? 'N/A';
+                  String approvalRef = upiResponse.approvalRefNo ?? 'N/A';
                   _checkTxnStatus(status);
 
                   return Padding(
@@ -236,10 +252,11 @@ class _UpiBottomSheetState extends State<UpiBottomSheet> {
                       ],
                     ),
                   );
-                } else
-                  return Center(
+                } else {
+                  return const Center(
                     child: Text(''),
                   );
+                }
               },
             ),
           )

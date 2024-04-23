@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TDiscountContainer extends StatelessWidget {
-  TDiscountContainer({
+  const TDiscountContainer({
     super.key, required this.ogPrice,required this.salePrice,
   });
   final ogPrice;

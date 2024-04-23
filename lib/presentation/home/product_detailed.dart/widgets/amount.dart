@@ -19,15 +19,15 @@ class AmountAndDiscount extends StatelessWidget {
           ogPrice: realPrice,
           salePrice: salePrice,
         ),
-        SizedBox(
+        const SizedBox(
           width: 5,
         ),
         Text("$realPrice",
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
             )),
         Text(' \$$salePrice',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
       ],
     );
   }

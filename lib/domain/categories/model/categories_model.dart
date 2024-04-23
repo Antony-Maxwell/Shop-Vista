@@ -12,11 +12,11 @@ class CategoryModel {
     required this.image,
     required this.name,
     required this.isFeatured,
-    this.parentId = '',
+    required this.parentId,
   });
 
   static CategoryModel empty() =>
-      CategoryModel(id: '', image: '', name: '', isFeatured: false);
+      CategoryModel(id: '', image: '', name: '', isFeatured: false, parentId: '');
 
   //convert model to json
   Map<String, dynamic> toJson() {
@@ -37,7 +37,9 @@ class CategoryModel {
           id: document.id,
           image: data!['Image'] ?? '',
           name: data['Name'] ?? '',
-          isFeatured: data['isFeatured'] ?? false);
+          isFeatured: data['isFeatured'] ?? false,
+          parentId: data['ParentId'] ?? '',
+          );
     } else {
       return CategoryModel.empty();
     }

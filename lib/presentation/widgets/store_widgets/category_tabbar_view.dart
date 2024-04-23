@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_vista/domain/home/brand/model/brand_model.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/grid_view_product.dart';
 import 'package:shop_vista/presentation/widgets/store_widgets/brand_container.dart';
 
@@ -19,10 +18,10 @@ class TCategoryTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               children: [
                 BrandContainer(
@@ -34,7 +33,7 @@ class TCategoryTabView extends StatelessWidget {
                   height: 220,
                   isAvailable: true,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(

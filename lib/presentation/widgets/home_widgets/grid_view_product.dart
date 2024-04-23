@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 import 'package:shop_vista/application/home/get_wishlist/getwishlist_bloc.dart';
 import 'package:shop_vista/application/home/products/products_bloc.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
@@ -25,7 +24,7 @@ class TGridViewProduct extends StatelessWidget {
         if(userState.isLoading){
           return ShimmerProduct().buildShimmerEffect();
         }
-        BlocProvider.of<GetwishlistBloc>(context).add(GetwishlistEvent.getWishlist(userState.user.userId!));
+        BlocProvider.of<GetwishlistBloc>(context).add(GetwishlistEvent.getWishlist(userState.user.userId));
         return BlocBuilder<GetwishlistBloc, GetwishlistState>(
           builder: (context, wishState) {
             if (wishState.isLoading) {

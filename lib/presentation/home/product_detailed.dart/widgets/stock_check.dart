@@ -17,7 +17,7 @@ class StockCheck extends StatelessWidget {
       ],
     );
     }else{
-      return Row(
+      return const Row(
       children: [
         Text('Stock : Instock'),
       ],

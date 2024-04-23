@@ -13,7 +13,7 @@ class AddressShowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        final address = state.user.address;
+        final address = state.user.addresses[0];
         return Container(
           width: double.infinity,
           height: 250,

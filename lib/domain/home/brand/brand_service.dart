@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:injectable/injectable.dart';
 import 'package:shop_vista/domain/core/main_failures.dart';
 import 'package:shop_vista/domain/home/brand/model/brand_model.dart';
 

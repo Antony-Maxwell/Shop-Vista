@@ -29,7 +29,7 @@ class RemoveFromCartImplementation{
 
       return Right(Cart(productId: productId, quantity: '0')); // Return a placeholder Cart object
     } catch (e) {
-      return Left(MainFailure.serverFailure());
+      return const Left(MainFailure.serverFailure());
     }
   }
 }

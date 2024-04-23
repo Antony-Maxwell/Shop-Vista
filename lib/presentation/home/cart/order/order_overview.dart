@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_vista/application/home/get_cart/get_cart_bloc.dart';
 import 'package:shop_vista/application/home/products/products_bloc.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
+import 'package:shop_vista/domain/User/user_model/user_model.dart';
 import 'package:shop_vista/domain/home/products/model/products.dart';
 import 'package:shop_vista/presentation/home/cart/cart_container/cart_container.dart';
 import 'package:shop_vista/presentation/home/cart/order/widgets/coupon_code.dart';
@@ -11,8 +12,9 @@ import 'package:shop_vista/presentation/home/cart/order/widgets/payment_address.
 import 'package:shop_vista/presentation/widgets/appbar_widgets/appbar.dart';
 
 class OrderOverView extends StatelessWidget {
-  const OrderOverView({super.key, required this.userId});
+  const OrderOverView({super.key, required this.userId, required this.amount});
   final userId;
+  final amount;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +22,6 @@ class OrderOverView extends StatelessWidget {
     const int discountamt = 25;
     const int tax = 3;
     const int total = shippingfee + discountamt + tax;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<GetCartBloc>(context)
-          .add(GetCartEvent.getCartList(userId, 0.0));
-    });
     return Scaffold(
         appBar: TAppBar(
           title: Text(
@@ -45,6 +43,7 @@ class OrderOverView extends StatelessWidget {
                       } else if (state.cart == null) {
                         return const Text('Cart is empty..');
                       } else {
+                        final List<Cart> cartProductsQty = state.cart!;
                         final List<Products> cartProducts =
                             productState.productsList.where((product) {
                           return state.cart!.any(
@@ -54,14 +53,20 @@ class OrderOverView extends StatelessWidget {
                           0,
                           (total, product) => total + product.price!,
                         );
+                        double finalAmount = 0; // Initialize finalAmount
+                      for (int i = 0; i < cartProducts.length; i++) {
+                        final product = cartProducts[i];
+                        final cartQty = cartProductsQty[i];
+                        finalAmount +=
+                            (product.price ?? 0) * int.parse(cartQty.quantity);
+                      }
                         BlocProvider.of<GetCartBloc>(context)
-                            .add(GetCartEvent.getCartList(userId, totalPrice));
+                            .add(GetCartEvent.getCartList(userId, finalAmount, 0.0));
                         return Column(
                           children: [
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.4,
                               child: CartContainer(
-                                isNeedtoShow: false,
                                 cartProducts: cartProducts,
                                 state: state,
                               ),
@@ -81,8 +86,12 @@ class OrderOverView extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: BlocBuilder<UserBloc, UserState>(
                                   builder: (context, userState) {
-                                    final address = userState.user.address;
-                                    return PaymentAndAddress(totalPrice: totalPrice, shippingfee: shippingfee, tax: tax, discountamt: discountamt, total: total, address: address, userState: userState,);
+                                    final amount = state.totalPrice;
+                                    final address = userState.user.addresses;
+                                    if(address.isEmpty){
+                                      return PaymentAndAddress(totalPrice: amount, shippingfee: shippingfee, tax: tax, discountamt: discountamt, total: total, address: address[0], userState: userState,);
+                                    }
+                                    return PaymentAndAddress(totalPrice: amount, shippingfee: shippingfee, tax: tax, discountamt: discountamt, total: total, address: address[0], userState: userState,);
                                   },
                                 ),
                               ),

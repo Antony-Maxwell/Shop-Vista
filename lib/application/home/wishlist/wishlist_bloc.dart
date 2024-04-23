@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:meta/meta.dart';
-import 'package:shop_vista/domain/core/snackbar/custom_snackbar.dart';
 
 part 'wishlist_event.dart';
 part 'wishlist_state.dart';

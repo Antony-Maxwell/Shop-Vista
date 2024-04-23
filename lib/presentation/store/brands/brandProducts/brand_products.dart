@@ -4,7 +4,6 @@ import 'package:shop_vista/application/home/get_wishlist/getwishlist_bloc.dart';
 import 'package:shop_vista/application/home/products/products_bloc.dart';
 import 'package:shop_vista/core/constants/sizedBox.dart';
 import 'package:shop_vista/presentation/widgets/appbar_widgets/appbar.dart';
-import 'package:shop_vista/presentation/widgets/home_widgets/grid_view_product.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/product_card.dart';
 import 'package:shop_vista/presentation/widgets/product_cart/shimmer.dart';
 import 'package:shop_vista/presentation/widgets/store_widgets/brand_container.dart';
@@ -68,7 +67,7 @@ class BrandProducts extends StatelessWidget {
                         ),
                         ListView.separated(
                           separatorBuilder: (context, index) => kHeight,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: filteredProducts.length,
                             itemBuilder: (context, index) {

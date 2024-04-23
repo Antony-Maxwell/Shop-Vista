@@ -18,19 +18,24 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$GetCartEvent {
   String get userId => throw _privateConstructorUsedError;
   double get totalPrice => throw _privateConstructorUsedError;
+  double get orderTotal => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String userId, double totalPrice) getCartList,
+    required TResult Function(
+            String userId, double totalPrice, double orderTotal)
+        getCartList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String userId, double totalPrice)? getCartList,
+    TResult? Function(String userId, double totalPrice, double orderTotal)?
+        getCartList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String userId, double totalPrice)? getCartList,
+    TResult Function(String userId, double totalPrice, double orderTotal)?
+        getCartList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -62,7 +67,7 @@ abstract class $GetCartEventCopyWith<$Res> {
           GetCartEvent value, $Res Function(GetCartEvent) then) =
       _$GetCartEventCopyWithImpl<$Res, GetCartEvent>;
   @useResult
-  $Res call({String userId, double totalPrice});
+  $Res call({String userId, double totalPrice, double orderTotal});
 }
 
 /// @nodoc
@@ -80,6 +85,7 @@ class _$GetCartEventCopyWithImpl<$Res, $Val extends GetCartEvent>
   $Res call({
     Object? userId = null,
     Object? totalPrice = null,
+    Object? orderTotal = null,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -89,6 +95,10 @@ class _$GetCartEventCopyWithImpl<$Res, $Val extends GetCartEvent>
       totalPrice: null == totalPrice
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      orderTotal: null == orderTotal
+          ? _value.orderTotal
+          : orderTotal // ignore: cast_nullable_to_non_nullable
               as double,
     ) as $Val);
   }
@@ -102,7 +112,7 @@ abstract class _$$GetCartListImplCopyWith<$Res>
       __$$GetCartListImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, double totalPrice});
+  $Res call({String userId, double totalPrice, double orderTotal});
 }
 
 /// @nodoc
@@ -118,6 +128,7 @@ class __$$GetCartListImplCopyWithImpl<$Res>
   $Res call({
     Object? userId = null,
     Object? totalPrice = null,
+    Object? orderTotal = null,
   }) {
     return _then(_$GetCartListImpl(
       null == userId
@@ -128,6 +139,10 @@ class __$$GetCartListImplCopyWithImpl<$Res>
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as double,
+      null == orderTotal
+          ? _value.orderTotal
+          : orderTotal // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -135,16 +150,18 @@ class __$$GetCartListImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GetCartListImpl implements GetCartList {
-  const _$GetCartListImpl(this.userId, this.totalPrice);
+  const _$GetCartListImpl(this.userId, this.totalPrice, this.orderTotal);
 
   @override
   final String userId;
   @override
   final double totalPrice;
+  @override
+  final double orderTotal;
 
   @override
   String toString() {
-    return 'GetCartEvent.getCartList(userId: $userId, totalPrice: $totalPrice)';
+    return 'GetCartEvent.getCartList(userId: $userId, totalPrice: $totalPrice, orderTotal: $orderTotal)';
   }
 
   @override
@@ -154,11 +171,13 @@ class _$GetCartListImpl implements GetCartList {
             other is _$GetCartListImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.totalPrice, totalPrice) ||
-                other.totalPrice == totalPrice));
+                other.totalPrice == totalPrice) &&
+            (identical(other.orderTotal, orderTotal) ||
+                other.orderTotal == orderTotal));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, userId, totalPrice);
+  int get hashCode => Object.hash(runtimeType, userId, totalPrice, orderTotal);
 
   @JsonKey(ignore: true)
   @override
@@ -169,27 +188,31 @@ class _$GetCartListImpl implements GetCartList {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String userId, double totalPrice) getCartList,
+    required TResult Function(
+            String userId, double totalPrice, double orderTotal)
+        getCartList,
   }) {
-    return getCartList(userId, totalPrice);
+    return getCartList(userId, totalPrice, orderTotal);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String userId, double totalPrice)? getCartList,
+    TResult? Function(String userId, double totalPrice, double orderTotal)?
+        getCartList,
   }) {
-    return getCartList?.call(userId, totalPrice);
+    return getCartList?.call(userId, totalPrice, orderTotal);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String userId, double totalPrice)? getCartList,
+    TResult Function(String userId, double totalPrice, double orderTotal)?
+        getCartList,
     required TResult orElse(),
   }) {
     if (getCartList != null) {
-      return getCartList(userId, totalPrice);
+      return getCartList(userId, totalPrice, orderTotal);
     }
     return orElse();
   }
@@ -224,13 +247,15 @@ class _$GetCartListImpl implements GetCartList {
 }
 
 abstract class GetCartList implements GetCartEvent {
-  const factory GetCartList(final String userId, final double totalPrice) =
-      _$GetCartListImpl;
+  const factory GetCartList(final String userId, final double totalPrice,
+      final double orderTotal) = _$GetCartListImpl;
 
   @override
   String get userId;
   @override
   double get totalPrice;
+  @override
+  double get orderTotal;
   @override
   @JsonKey(ignore: true)
   _$$GetCartListImplCopyWith<_$GetCartListImpl> get copyWith =>
@@ -241,6 +266,7 @@ abstract class GetCartList implements GetCartEvent {
 mixin _$GetCartState {
   bool get isLoading => throw _privateConstructorUsedError;
   List<Cart>? get cart => throw _privateConstructorUsedError;
+  double get orderTotal => throw _privateConstructorUsedError;
   double get totalPrice => throw _privateConstructorUsedError;
   Option<Either<MainFailure, List<Cart>>> get cartSuccessFailureOption =>
       throw _privateConstructorUsedError;
@@ -259,6 +285,7 @@ abstract class $GetCartStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       List<Cart>? cart,
+      double orderTotal,
       double totalPrice,
       Option<Either<MainFailure, List<Cart>>> cartSuccessFailureOption});
 }
@@ -278,6 +305,7 @@ class _$GetCartStateCopyWithImpl<$Res, $Val extends GetCartState>
   $Res call({
     Object? isLoading = null,
     Object? cart = freezed,
+    Object? orderTotal = null,
     Object? totalPrice = null,
     Object? cartSuccessFailureOption = null,
   }) {
@@ -290,6 +318,10 @@ class _$GetCartStateCopyWithImpl<$Res, $Val extends GetCartState>
           ? _value.cart
           : cart // ignore: cast_nullable_to_non_nullable
               as List<Cart>?,
+      orderTotal: null == orderTotal
+          ? _value.orderTotal
+          : orderTotal // ignore: cast_nullable_to_non_nullable
+              as double,
       totalPrice: null == totalPrice
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -313,6 +345,7 @@ abstract class _$$GetCartStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       List<Cart>? cart,
+      double orderTotal,
       double totalPrice,
       Option<Either<MainFailure, List<Cart>>> cartSuccessFailureOption});
 }
@@ -330,6 +363,7 @@ class __$$GetCartStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? cart = freezed,
+    Object? orderTotal = null,
     Object? totalPrice = null,
     Object? cartSuccessFailureOption = null,
   }) {
@@ -342,6 +376,10 @@ class __$$GetCartStateImplCopyWithImpl<$Res>
           ? _value._cart
           : cart // ignore: cast_nullable_to_non_nullable
               as List<Cart>?,
+      orderTotal: null == orderTotal
+          ? _value.orderTotal
+          : orderTotal // ignore: cast_nullable_to_non_nullable
+              as double,
       totalPrice: null == totalPrice
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -360,6 +398,7 @@ class _$GetCartStateImpl implements _GetCartState {
   const _$GetCartStateImpl(
       {required this.isLoading,
       final List<Cart>? cart,
+      required this.orderTotal,
       required this.totalPrice,
       required this.cartSuccessFailureOption})
       : _cart = cart;
@@ -377,13 +416,15 @@ class _$GetCartStateImpl implements _GetCartState {
   }
 
   @override
+  final double orderTotal;
+  @override
   final double totalPrice;
   @override
   final Option<Either<MainFailure, List<Cart>>> cartSuccessFailureOption;
 
   @override
   String toString() {
-    return 'GetCartState(isLoading: $isLoading, cart: $cart, totalPrice: $totalPrice, cartSuccessFailureOption: $cartSuccessFailureOption)';
+    return 'GetCartState(isLoading: $isLoading, cart: $cart, orderTotal: $orderTotal, totalPrice: $totalPrice, cartSuccessFailureOption: $cartSuccessFailureOption)';
   }
 
   @override
@@ -394,6 +435,8 @@ class _$GetCartStateImpl implements _GetCartState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality().equals(other._cart, _cart) &&
+            (identical(other.orderTotal, orderTotal) ||
+                other.orderTotal == orderTotal) &&
             (identical(other.totalPrice, totalPrice) ||
                 other.totalPrice == totalPrice) &&
             (identical(
@@ -406,6 +449,7 @@ class _$GetCartStateImpl implements _GetCartState {
       runtimeType,
       isLoading,
       const DeepCollectionEquality().hash(_cart),
+      orderTotal,
       totalPrice,
       cartSuccessFailureOption);
 
@@ -420,6 +464,7 @@ abstract class _GetCartState implements GetCartState {
   const factory _GetCartState(
       {required final bool isLoading,
       final List<Cart>? cart,
+      required final double orderTotal,
       required final double totalPrice,
       required final Option<Either<MainFailure, List<Cart>>>
           cartSuccessFailureOption}) = _$GetCartStateImpl;
@@ -428,6 +473,8 @@ abstract class _GetCartState implements GetCartState {
   bool get isLoading;
   @override
   List<Cart>? get cart;
+  @override
+  double get orderTotal;
   @override
   double get totalPrice;
   @override

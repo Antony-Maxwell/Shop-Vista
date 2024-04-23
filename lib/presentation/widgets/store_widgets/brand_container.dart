@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:shop_vista/presentation/store/brands/brandProducts/brand_products.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/rounded_image.dart';
 
@@ -39,12 +38,12 @@ class BrandContainer extends StatelessWidget {
           children: [
             Row(
               children: [
-                SizedBox(width: 5,),
+                const SizedBox(width: 5,),
                 Image.network(
                   brandLogo,
                   fit: BoxFit.cover,
                 ),
-                SizedBox(width: 5,),
+                const SizedBox(width: 5,),
                 Text(
                   brandName,
                   style: const TextStyle(
@@ -115,7 +114,7 @@ class BrandContainer extends StatelessWidget {
                       ),
                     ],
                   )
-                : SizedBox()
+                : const SizedBox()
           ],
         ),
       ),

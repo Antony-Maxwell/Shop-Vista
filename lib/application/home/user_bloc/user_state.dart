@@ -18,18 +18,19 @@ class UserState with _$UserState {
           firstName: '',
           lastName: '',
           phoneNumber: 0,
-          address: Address(
+          addresses:[ Address(
               name: '',
               street: '',
               city: '',
               state: '',
               postalCode: '',
               country: '',
-              phoneNumber: 0),
+              phoneNumber: 0)],
           profilePicture: '',
           password: '',
           wishlist: [],
           cart: [],
+          orders: []
         ),
       );
 }

@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shop_vista/core/constants/sizedBox.dart';
-import 'package:shop_vista/presentation/home/home_screen.dart';
 import 'package:shop_vista/presentation/widgets/navigation_menu.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
@@ -28,7 +27,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     if (!isEmailVerified) {
       sendVerificationMail();
 
-      timer = Timer.periodic(Duration(seconds: 3), (_) => checkEmailVerified());
+      timer = Timer.periodic(const Duration(seconds: 3), (_) => checkEmailVerified());
     }
   }
 
@@ -65,7 +64,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               child: Column(
                 children: [
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: 500,
                       child: Lottie.asset('assets/email_verification.json'),
                     ),
@@ -100,7 +99,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                   Button(onTap: () {}),
                   TextButton(onPressed: () {
                     resendVerificationEmail();
-                  }, child: Text('Resend email'))
+                  }, child: const Text('Resend email'))
                 ],
               ),
             ),
@@ -120,7 +119,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
 class Button extends StatelessWidget {
   final VoidCallback onTap;
-  Button({
+  const Button({
     super.key,
     required this.onTap,
   });

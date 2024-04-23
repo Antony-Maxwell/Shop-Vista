@@ -13,5 +13,9 @@ class CartCountBloc extends Bloc<CartCountEvent, CartCountState> {
     on<Decrement>((event, emit) {
       return emit(CartCountState(cartCount: state.cartCount-1));
     });
+
+    on<ResetCart>((event, emit) {
+      return emit(CartCountInitial());
+    });
   }
 }

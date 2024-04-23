@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:shop_vista/presentation/widgets/vertical_categories/vertical_categories.dart';
 
 class TProductCardShimmer extends StatelessWidget {
   const TProductCardShimmer({Key? key}) : super(key: key);
@@ -10,7 +9,7 @@ class TProductCardShimmer extends StatelessWidget {
     return SizedBox(
       height: 80,
       child: ListView.separated(
-          separatorBuilder: (context, index) => SizedBox(
+          separatorBuilder: (context, index) => const SizedBox(
                 width: 15,
               ),
           shrinkWrap: true,
@@ -27,7 +26,7 @@ class TProductCardShimmer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                   color: Colors.white,
                 ),
-                child: Center(child: Icon(Icons.refresh)),
+                child: const Center(child: Icon(Icons.refresh)),
               ),
             );
           }),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_vista/application/home/products/products_bloc.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 import 'package:shop_vista/core/constants/sizedBox.dart';
 import 'package:shop_vista/domain/home/products/model/products.dart';
@@ -67,7 +66,7 @@ class ProductDetailedPage extends StatelessWidget {
                   subImages: subImages,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -164,7 +163,7 @@ class ProductDetailedPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "Reviews  (199)",
                             style: TextStyle(
                               fontSize: 16,

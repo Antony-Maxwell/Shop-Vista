@@ -39,7 +39,7 @@ class _OnBoardingOneState extends State<OnBoardingOne> {
                 onTap: () {
                   Navigator.pushReplacement(context, MaterialPageRoute(
                     builder: (context) {
-                      return LoginScreen();
+                      return  LoginScreen();
                     },
                   ));
                 },
@@ -89,7 +89,7 @@ class _OnBoardingOneState extends State<OnBoardingOne> {
               ),
               Row(
                 children: [
-                  Spacer(),
+                  const Spacer(),
                   SizedBox(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -97,10 +97,10 @@ class _OnBoardingOneState extends State<OnBoardingOne> {
                       ),
                       onPressed: () {
                         _pageController.nextPage(
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             curve: Curves.ease);
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.white,
                       ),
@@ -166,7 +166,7 @@ final List<OnBorad> demoData = [
 
 class OnBoardingContent extends StatelessWidget {
   OnBoardingContent(
-      {required this.headLine,
+      {super.key, required this.headLine,
       required this.gifPath,
       required this.description});
 
@@ -182,23 +182,23 @@ class OnBoardingContent extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 550,
                 child: Lottie.asset(gifPath),
               ),
               Text(
                 headLine,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
                   textAlign: TextAlign.center,
                   description,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),

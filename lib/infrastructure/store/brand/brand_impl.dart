@@ -12,16 +12,12 @@ class BrandsImplements implements BrandServices {
   Future<Either<MainFailure, List<BrandModel>>> getBrands() async {
     try {
       final snapShot = await _db.collection('Brand').get();
-      if (snapShot != null) {
-        final List<BrandModel> retrievedBrands = snapShot.docs
-            .map((doc) => BrandModel.fromJson(doc.data()))
-            .toList();
-        print(retrievedBrands);
-        return Right(retrievedBrands);
-      } else {
-        return const Left(MainFailure.serverFailure());
-      }
-    } catch (e) {
+      final List<BrandModel> retrievedBrands = snapShot.docs
+          .map((doc) => BrandModel.fromJson(doc.data()))
+          .toList();
+      print(retrievedBrands);
+      return Right(retrievedBrands);
+        } catch (e) {
       print(e);
       return const Left(MainFailure.clientFailure());
     }

@@ -12,7 +12,7 @@ class productName extends StatelessWidget {
     return Row(
       children: [
         Text(productname,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
             )),

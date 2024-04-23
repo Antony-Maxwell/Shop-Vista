@@ -16,17 +16,18 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     BlocProvider.of<BrandBloc>(context).add(const GetBrandsList());
   
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             TPrimaryHeaderContainer(
+              height: 350,
               child: Column(
                 children: [
-                  THomeAppBar(),
-                  SizedBox(height: 20),
+                  const THomeAppBar(),
+                  const SizedBox(height: 20),
                   TSearchBarWidget(text: 'Search in Store'),
-                  Column(
+                  const Column(
                     children: [
                       SizedBox(height: 10),
                       TSectionHeading(
@@ -41,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 children: [

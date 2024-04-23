@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_vista/domain/User/user_model/user_model.dart';
 import 'package:shop_vista/presentation/auth/login.dart';
@@ -11,45 +10,52 @@ class FirebaseAuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<User?> signUpWithEmailandPassword(
-      String email, String password, BuildContext context, String username, String firstName, String lastName, String profilePic, int phoneNumber) async {
+      String email,
+      String password,
+      BuildContext context,
+      String username,
+      String firstName,
+      String lastName,
+      String profilePic,
+      int phoneNumber) async {
     try {
-      CollectionReference usersCollection = FirebaseFirestore.instance.collection('Users');
+      CollectionReference usersCollection =
+          FirebaseFirestore.instance.collection('Users');
 
       Address address = Address(
-          city: 'fgh',
-          country: 'cv',
-          name: 'ftgh',
-          phoneNumber: 65132,
-          postalCode: 'ycv',
-          state: 'gh',
-          street: 'oiuy',
-        );
-        List<Cart> cart =[
-          Cart(
-        productId: 'dummy id', 
-        quantity: '1'),
-        Cart(productId: 'dummy 23', quantity: '3')
-        ];
-      UserModel user = UserModel(
-        address: address,
-        cart: cart,
-        email: email,
-        firstName: firstName,
-        lastName: lastName,
-        password: password,
-        phoneNumber: phoneNumber,
-        profilePicture: profilePic,
-        userName: username,
-        wishlist: []
+        city: 'fgh',
+        country: 'cv',
+        name: 'ftgh',
+        phoneNumber: 65132,
+        postalCode: 'ycv',
+        state: 'gh',
+        street: 'oiuy',
       );
-      print('wooooooooooooooooooooooooooooooooooooooooooooooooooooowwwwwwwwwwwww');
+      Orders orders = Orders(orderId: 'aadvsaaj', productIds: [], date: DateTime.now().toString(), status: 'Pending');
+
+      UserModel user = UserModel(
+        userId: usersCollection.id,
+          addresses: [address],
+          cart: [],
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          password: password,
+          phoneNumber: phoneNumber,
+          profilePicture: profilePic,
+          userName: username,
+          wishlist: [],
+          orders: [orders],
+          );
+      print(
+          'wooooooooooooooooooooooooooooooooooooooooooooooooooooowwwwwwwwwwwww');
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       await usersCollection.doc(credential.user?.uid).set({
         ...user.toJson(),
-        'UserId' : credential.user?.uid,
+        'UserId': credential.user?.uid,
       });
-      _showSnackbar(context, 'User registered successfully');
+      _showSnackbar(context, 'Email sent successfully');
       return credential.user;
     } catch (e) {
       print('Error occurred while registering $e');
@@ -71,7 +77,7 @@ class FirebaseAuthServices {
       if (credential.user != null) {
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
           builder: (context) {
-            return NavigationMenu();
+            return const NavigationMenu();
           },
         ), (route) => false); // Replace '/home' with your route name
       }
@@ -84,13 +90,37 @@ class FirebaseAuthServices {
 
   Future<void> signOut(context) async {
     try {
-      await _auth.signOut();
-      print('User signed out successfully');
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-        builder: (context) {
-          return LoginScreen();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Confirm Logout"),
+            content: Text("Are you sure you want to logout?"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () async {
+                  await _auth.signOut();
+                  print('User signed out successfully');
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                    builder: (context) {
+                      return LoginScreen();
+                    },
+                  ), (route) => false);
+                  
+                },
+                child: Text("Logout"),
+              ),
+            ],
+          );
         },
-      ), (route) => false);
+      );
     } catch (e) {
       print('error is $e');
     }

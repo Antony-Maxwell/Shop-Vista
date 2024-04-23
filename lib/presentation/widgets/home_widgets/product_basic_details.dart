@@ -33,10 +33,10 @@ class TProductDetails extends StatelessWidget {
               brand,
               style: Theme.of(context).textTheme.labelMedium,
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
-            Icon(
+            const Icon(
               Iconsax.verify5,
               color: Colors.blue,
               size: 15,
@@ -48,7 +48,7 @@ class TProductDetails extends StatelessWidget {
           children: [
             Text(
               '\$ $amount',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
@@ -62,7 +62,7 @@ class TProductDetails extends StatelessWidget {
                     topLeft: Radius.circular(10),
                     bottomRight: Radius.circular(15),
                   )),
-              child: Icon(
+              child: const Icon(
                 Iconsax.add,
                 color: Colors.white,
               ),

@@ -1,12 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_vista/application/home/get_cart/get_cart_bloc.dart';
+import 'package:shop_vista/application/home/products/products_bloc.dart';
 
 class CheckoutContainer extends StatelessWidget {
   const CheckoutContainer({
     this.checkoutVal,
-    this.isCheckout,
+    required this.isCheckout,
     super.key,
   });
 
@@ -28,25 +28,31 @@ class CheckoutContainer extends StatelessWidget {
         width: double.infinity,
         height: 50,
         child: Center(
-          child: BlocBuilder<GetCartBloc, GetCartState>(
-            builder: (context, state) {
-              return isCheckout!
-              ? Text(
-                'CheckOut \$${state.totalPrice}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                ),
-              )
-              :
-              Text(
-                'CheckOut \$$checkoutVal',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                ),
+          child: BlocBuilder<ProductsBloc, ProductsState>(
+            builder: (context, proState) {
+              if (proState.isLoading) {
+                return const CircularProgressIndicator();
+              }
+              return BlocBuilder<GetCartBloc, GetCartState>(
+                builder: (context, state) {
+                  return isCheckout!
+                      ? Text(
+                          'CheckOut \$${state.totalPrice + checkoutVal}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        )
+                      : Text(
+                          'CheckOut \$${state.totalPrice}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        );
+                },
               );
             },
           ),

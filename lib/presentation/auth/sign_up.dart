@@ -4,7 +4,6 @@ import 'package:shop_vista/infrastructure/emailandpass_auth_impl/firebase_auth_s
 import 'package:shop_vista/infrastructure/facebook_auth_impl/facebook_auth_service.dart';
 import 'package:shop_vista/infrastructure/google_impl/google_auth_service.dart';
 import 'package:shop_vista/presentation/auth/verify_email.dart';
-import 'package:shop_vista/presentation/home/home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -51,52 +50,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Expanded(
                         child: SignTextFeild(
                             emailController: _firstnameController,
-                            icon: Icon(Icons.person),
+                            icon: const Icon(Icons.person),
                             hint: 'First Name')),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
                         child: SignTextFeild(
                             emailController: _lastnameController,
-                            icon: Icon(Icons.person),
+                            icon: const Icon(Icons.person),
                             hint: 'Last Name')),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 SignTextFeild(
                     emailController: _usernameController,
-                    icon: Icon(Icons.person_2_sharp),
+                    icon: const Icon(Icons.person_2_sharp),
                     hint: 'Username'),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 SignTextFeild(
                     emailController: _emailController,
-                    icon: Icon(Icons.email_outlined),
+                    icon: const Icon(Icons.email_outlined),
                     hint: 'E-Mail'),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 SignTextFeild(
                     emailController: _phoneNumberController,
-                    icon: Icon(Icons.phone_android_sharp),
+                    icon: const Icon(Icons.phone_android_sharp),
                     hint: 'Phone Number'),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 SignTextFeild(
                     emailController: _passwordController,
-                    icon: Icon(Icons.password),
+                    icon: const Icon(Icons.password),
                     hint: 'Password'),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 SignTextFeild(
                     emailController: _confirmPassController,
-                    icon: Icon(Icons.password_sharp),
+                    icon: const Icon(Icons.password_sharp),
                     hint: 'Confirm Password'),
                 Row(
                   // crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,17 +116,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
                 sign(onTap: signUp),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
-                Divider(),
-                Text('Or Sign Up with '),
-                SizedBox(
+                const Divider(),
+                const Text('Or Sign Up with '),
+                const SizedBox(
                   height: 15,
                 ),
                 Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
                     Expanded(
@@ -147,7 +146,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     )
                   ],
@@ -199,7 +198,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // Navigate to HomeScreen after successful sign-up or Google Sign-In
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return VerifyEmailScreen();
+      return const VerifyEmailScreen();
     }));
   }
 }
@@ -225,7 +224,7 @@ class SignTextFeild extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         hintText: hint,
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 15,
         ),
@@ -237,7 +236,7 @@ class SignTextFeild extends StatelessWidget {
 
 class sign extends StatelessWidget {
   final VoidCallback onTap;
-  sign({
+  const sign({
     super.key,
     required this.onTap,
   });

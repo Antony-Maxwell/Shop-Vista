@@ -4,12 +4,13 @@ class UserModel {
   String firstName;
   String lastName;
   int phoneNumber;
-  Address address;
+  List<Address> addresses;
   String profilePicture;
   String password;
   List<String> wishlist;
   List<Cart> cart;
-  String? userId;
+  String userId;
+  List<Orders> orders;
 
   UserModel({
     required this.userName,
@@ -17,15 +18,15 @@ class UserModel {
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
-    required this.address,
+    required this.addresses,
     required this.profilePicture,
     required this.password,
     required this.wishlist,
     required this.cart,
-    this.userId,
+    required this.orders,
+    required this.userId,
   });
 
-  // Factory method to create UserModel from JSON
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       userName: json['UserName'] ?? "",
@@ -33,16 +34,20 @@ class UserModel {
       firstName: json['FirstName'] ?? "",
       lastName: json['LastName'] ?? "",
       phoneNumber: json['PhoneNumber'] ?? 0,
-      address: Address.fromJson(json['Address'] ?? {}),
+      addresses: (json['Addresses'] as List<dynamic>?)
+          ?.map((addressJson) => Address.fromJson(addressJson))
+          .toList() ?? [],
       profilePicture: json['ProfilePicture'] ?? "",
       password: json['Password'] ?? "",
       wishlist: List<String>.from(json['Wishlist'] ?? []),
-      cart: (json['Cart'] as List<dynamic>?)?.map((cartJson) => Cart.fromJson(cartJson) ).toList() ?? [],
-      userId: json['UserId']?? "",
+      cart: (json['Cart'] as List<dynamic>?)
+          ?.map((cartJson) => Cart.fromJson(cartJson))
+          .toList() ?? [],
+      userId: json['UserId'] ?? "",
+      orders: (json['Orders'] as List<dynamic>?)?.map((ordersJson) => Orders.fromJson(ordersJson)).toList() ?? [],
     );
   }
 
-  // Convert UserModel to JSON
   Map<String, dynamic> toJson() {
     return {
       'UserName': userName,
@@ -50,12 +55,13 @@ class UserModel {
       'FirstName': firstName,
       'LastName': lastName,
       'PhoneNumber': phoneNumber,
-      'Address': address.toJson(),
+      'Addresses': addresses.map((address) => address.toJson()).toList(),
       'ProfilePicture': profilePicture,
       'Password': password,
       'Wishlist': wishlist,
       'Cart': cart.map((cartItem) => cartItem.toJson()).toList(),
-      'UserId' : userId,
+      'UserId': userId,
+      'Orders' : orders.map((orders) => orders.toJson()).toList(),
     };
   }
 }
@@ -79,7 +85,6 @@ class Address {
     required this.phoneNumber,
   });
 
-  // Factory method to create Address from JSON
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       name: json['Name'] ?? "",
@@ -88,11 +93,10 @@ class Address {
       state: json['State'] ?? "",
       postalCode: json['PostalCode'] ?? "",
       country: json['Country'] ?? "",
-      phoneNumber: json['PhoneNumber'] ?? "",
+      phoneNumber: json['PhoneNumber'] ?? 0,
     );
   }
 
-  // Convert Address to JSON
   Map<String, dynamic> toJson() {
     return {
       'Name': name,
@@ -106,7 +110,7 @@ class Address {
   }
 }
 
-class Cart{
+class Cart {
   String productId;
   String quantity;
 
@@ -115,16 +119,50 @@ class Cart{
     required this.quantity,
   });
 
-  factory Cart.fromJson(Map<String,dynamic> json){
+  factory Cart.fromJson(Map<String, dynamic> json) {
     return Cart(
-      productId: json['ProductId'] ?? '', 
-      quantity: json['Quantity'] ?? '',);
+      productId: json['ProductId'] ?? "",
+      quantity: json['Quantity'] ?? "",
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'ProductId': productId,
       'Quantity': quantity,
+    };
+  }
+}
+
+class Orders {
+  String orderId;
+  List<String> productIds;
+  String status;
+  String date;
+
+  Orders({
+    required this.orderId,
+    required this.productIds,
+    required this.date,
+    required this.status,
+  });
+
+  factory Orders.fromJson(Map<String, dynamic> json) {
+    return Orders(
+      orderId: json['OrderId'],
+      productIds: List<String>.from(json['ProductIds'],
+      ),
+      date: json['Date'],
+      status: json['Status']
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'OrderId' : orderId,
+      'ProductIds' : productIds,
+      'Status' : status,
+      'Date' : date,
     };
   }
 }

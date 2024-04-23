@@ -14,14 +14,14 @@ class BrandName extends StatelessWidget {
     return Row(
       children: [
         Text(brandName,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
             )),
-        SizedBox(
+        const SizedBox(
           width: 5,
         ),
-        Icon(
+        const Icon(
           Iconsax.verify5,
           color: Colors.blue,
           size: 20,

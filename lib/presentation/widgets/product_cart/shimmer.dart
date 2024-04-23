@@ -20,7 +20,7 @@ class ShimmerProduct {
           ),
         );
       },
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisExtent: 265,
         mainAxisSpacing: 16,
@@ -41,6 +41,29 @@ class ShimmerProduct {
           highlightColor: Colors.grey[100]!,
           child: Container(
             height: 350,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  buildShimmerEffectCategory() {
+    return ListView.separated(
+      separatorBuilder: (context, index) => kHeight,
+      itemCount: 6, // Adjust the number of shimmer items as needed
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(
+            height: 170,
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.white,

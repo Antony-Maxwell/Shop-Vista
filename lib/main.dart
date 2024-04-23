@@ -27,7 +27,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(myApp());
+  runApp(const myApp());
 }
 
 class myApp extends StatelessWidget {
@@ -65,17 +65,17 @@ class myApp extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else {
                 if (snapshot.hasData) {
                   User? user = snapshot.data;
                   if (user!.emailVerified) {
-                    return NavigationMenu();
+                    return const NavigationMenu();
                   } else {
-                    return OnBoardingOne();
+                    return const OnBoardingOne();
                   }
                 } else {
-                  return OnBoardingOne();
+                  return const OnBoardingOne();
                 }
               }
               // return SplashScreen();

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_vista/application/home/get_wishlist/getwishlist_bloc.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 import 'package:shop_vista/presentation/home/cart/cart_screen.dart';
 import 'package:shop_vista/presentation/widgets/appbar_widgets/appbar.dart';
@@ -38,6 +37,7 @@ class THomeAppBar extends StatelessWidget {
           ),
           action: [
             TCartCounterIcon(
+              userId: state.user.userId,
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(

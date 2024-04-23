@@ -11,11 +11,12 @@ class CategoryRepository {
       final list = snapshot.docs
           .map((document) => CategoryModel.fromSnapshot(document))
           .toList();
+          print(list[0].parentId);
       return list;
-    } on FirebaseException catch (e) {
-      throw e;
-    } on PlatformException catch (e) {
-      throw e;
+    } on FirebaseException {
+      rethrow;
+    } on PlatformException {
+      rethrow;
     } catch (e) {
       throw 'Something bad happened';
     }

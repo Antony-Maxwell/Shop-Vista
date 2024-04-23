@@ -13,22 +13,18 @@ class ProductsImplementation implements ProductsServices {
     try {
       final snapShot = await _db.collection('Products').get();
       // final Response response = await Dio(BaseOptions()).get(ApiEndpoints.banners);
-      if (snapShot != null) {
-        final productList = snapShot.docs
-            .map((document) => Products.fromJson(document.data()))
-            .whereType<Products>()
-            .toList();
-        print(productList);
-        productList.forEach((element) {
-          print(element.price);
-          print(element.thumbnail);
-          print(element.id);
-        });
-        return Right(productList);
-      } else {
-        return const Left(MainFailure.serverFailure());
+      final productList = snapShot.docs
+          .map((document) => Products.fromJson(document.data()))
+          .whereType<Products>()
+          .toList();
+      print(productList);
+      for (var element in productList) {
+        print(element.price);
+        print(element.thumbnail);
+        print(element.id);
       }
-    } catch (e) {
+      return Right(productList);
+        } catch (e) {
       print(e);
       return const Left(MainFailure.clientFailure());
     }

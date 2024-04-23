@@ -28,7 +28,9 @@ class StoreScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child:
-                  TCartCounterIcon(onPressed: () {}, iconColor: Colors.black),
+                  TCartCounterIcon(
+                    userId: 00,
+                    onPressed: () {}, iconColor: Colors.black),
             )
           ],
         ),
@@ -65,7 +67,7 @@ class StoreScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          const TSearchBarWidget(
+                          TSearchBarWidget(
                             text: 'Search in Store',
                           ),
                           const SizedBox(height: 10),

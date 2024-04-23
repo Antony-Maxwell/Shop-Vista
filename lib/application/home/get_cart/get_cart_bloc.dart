@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shop_vista/domain/User/cart/cart_service.dart';
 import 'package:shop_vista/domain/User/user_model/user_model.dart';

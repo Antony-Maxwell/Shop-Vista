@@ -32,8 +32,7 @@ class TMainBannerContainer extends StatelessWidget {
                       enlargeCenterPage: true,
                       onPageChanged: (index, reason) {
                         state.page = index;
-                        BlocProvider.of<PageIndicatorBloc>(context)
-                            .add(PageIndicatorEvent());
+                        BlocProvider.of<PageIndicatorBloc>(context).add(PageIndicatorEvent());
                       },
                       autoPlay: true,
                       viewportFraction: 0.8,

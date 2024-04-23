@@ -5,7 +5,6 @@ import 'package:shop_vista/application/home/products/products_bloc.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 import 'package:shop_vista/domain/home/products/model/products.dart';
 import 'package:shop_vista/presentation/widgets/appbar_widgets/appbar.dart';
-import 'package:shop_vista/presentation/widgets/home_widgets/grid_view_product.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/product_card.dart';
 import 'package:shop_vista/presentation/widgets/product_cart/shimmer.dart';
 
@@ -26,13 +25,15 @@ class WishlistScreen extends StatelessWidget {
               'Wishlist',
               style: Theme.of(context).textTheme.headlineLarge,
             ),
-            action: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+            action: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
           ),
           body: Padding(
             padding: const EdgeInsets.all(10.0),
             child: BlocBuilder<GetwishlistBloc, GetwishlistState>(
               builder: (context, wishlistState) {
-                if (wishlistState.isLoading && wishlistState.wishList == null) {
+                if(wishlistState.wishList!.isEmpty){
+                  return const Center(child: Text('Wishlist is empty'),);
+                }else if (wishlistState.isLoading) {
                   return ShimmerProduct().buildShimmerEffect();
                 } else {
                   return BlocBuilder<ProductsBloc, ProductsState>(
@@ -74,7 +75,7 @@ class WishlistScreen extends StatelessWidget {
                               iconColor: iconColorNonNull,
                             );
                           },
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisExtent: 280,
                             mainAxisSpacing: 16,

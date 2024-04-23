@@ -29,7 +29,7 @@ class GetWishlistImplementation implements GetWishlistService {
       } else {
         return const Right([]);
       }
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       return const Left(MainFailure.serverFailure());
     } catch (e) {
       // Handle generic error

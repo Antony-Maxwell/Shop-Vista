@@ -13,16 +13,12 @@ class BannersRepository implements BannersRepo {
     try {
       final snapShot = await _db.collection('Banners').get();
       // final Response response = await Dio(BaseOptions()).get(ApiEndpoints.banners);
-      if (snapShot != null) {
-        final bannersList = snapShot.docs
-            .map((document) => Banners.fromSnapshot(document))
-            .toList();
-        // print(bannersList);
-        return Right(bannersList);
-      } else {
-        return const Left(MainFailure.serverFailure());
-      }
-    } catch (e) {
+      final bannersList = snapShot.docs
+          .map((document) => Banners.fromSnapshot(document))
+          .toList();
+      // print(bannersList);
+      return Right(bannersList);
+        } catch (e) {
       print(e);
       return const Left(MainFailure.clientFailure());
     }

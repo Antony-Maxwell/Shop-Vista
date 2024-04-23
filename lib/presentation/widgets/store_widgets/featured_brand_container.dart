@@ -22,7 +22,7 @@ class FeraturedBrands extends StatelessWidget {
       itemCount: count,
       shrinkWrap: true,
       itemBuilder: (context, index) => Padding(
-        padding: EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(4.0),
         child: Expanded(
             child: BrandContainer(
               id: id[index].id,

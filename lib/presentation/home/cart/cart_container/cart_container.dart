@@ -8,21 +8,20 @@ import 'package:shop_vista/infrastructure/user_detail_imp/cart/remove_cart_impl.
 import 'package:cached_network_image/cached_network_image.dart';
 
 class CartContainer extends StatelessWidget {
-  CartContainer({
+  const CartContainer({
     super.key,
     required this.cartProducts,
     required this.state,
-    required this.isNeedtoShow,
   });
 
   final List<Products> cartProducts;
   final GetCartState state;
-  bool isNeedtoShow;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      // physics: NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => const SizedBox(
         height: 5,
       ),
@@ -32,6 +31,7 @@ class CartContainer extends StatelessWidget {
         final product = cartProducts[index];
         final productAttriVal = product.productsAttributes![0];
         final productAttriVal2 = product.productsAttributes![1];
+        final finalAmount = int.parse(cartQty.quantity) * product.price!;
         return SizedBox(
           height: 130,
           child: Padding(
@@ -48,12 +48,12 @@ class CartContainer extends StatelessWidget {
                       imageUrl: product.thumbnail!,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Shimmer.fromColors(
-                        child: Container(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: const SizedBox(
                           height: 120,
                           width: 110,
                         ),
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
                       ),
                     ),
                   ),
@@ -63,12 +63,15 @@ class CartContainer extends StatelessWidget {
                 ),
                 Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        product.title!,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Text(
+                          product.title!,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Row(
@@ -100,27 +103,22 @@ class CartContainer extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      isNeedtoShow
-                          ? Text('Qantity : ${cartQty.quantity}')
-                          : SizedBox()
+                      Text('Qantity : ${cartQty.quantity}'),
                     ],
                   ),
                 ),
                 const Spacer(),
                 Column(
                   children: [
-                    isNeedtoShow
-                        ? Text(
-                            '\$${product.price}',
+                    Text(
+                            '\$$finalAmount',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
-                          )
-                        : SizedBox(),
+                          ),
                     const Spacer(),
-                    isNeedtoShow
-                        ? BlocBuilder<UserBloc, UserState>(
+                    BlocBuilder<UserBloc, UserState>(
                             builder: (context, userState) {
                               return TextButton(
                                   onPressed: () {
@@ -133,8 +131,7 @@ class CartContainer extends StatelessWidget {
                                     style: TextStyle(color: Colors.red),
                                   ));
                             },
-                          )
-                        : SizedBox()
+                          ),
                   ],
                 )
               ],
