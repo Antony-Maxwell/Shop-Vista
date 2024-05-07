@@ -6,20 +6,20 @@ import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 import 'package:shop_vista/domain/User/user_model/user_model.dart';
 import 'package:shop_vista/domain/home/products/model/products.dart';
 import 'package:shop_vista/presentation/home/cart/cart_container/cart_container.dart';
-import 'package:shop_vista/presentation/home/cart/order/widgets/coupon_code.dart';
 import 'package:shop_vista/presentation/home/cart/order/widgets/order_overview_checkout.dart';
 import 'package:shop_vista/presentation/home/cart/order/widgets/payment_address.dart';
 import 'package:shop_vista/presentation/widgets/appbar_widgets/appbar.dart';
 
 class OrderOverView extends StatelessWidget {
-  const OrderOverView({super.key, required this.userId, required this.amount});
+  const OrderOverView(
+      {super.key, required this.userId, required this.amountTotal});
   final userId;
-  final amount;
+  final double amountTotal;
 
   @override
   Widget build(BuildContext context) {
     const int shippingfee = 12;
-    const int discountamt = 25;
+    const int discountamt = 20;
     const int tax = 3;
     const int total = shippingfee + discountamt + tax;
     return Scaffold(
@@ -40,7 +40,7 @@ class OrderOverView extends StatelessWidget {
                     builder: (context, state) {
                       if (productState.isLoading && state.isLoading) {
                         return const CircularProgressIndicator();
-                      } else if (state.cart == null) {
+                      } else if (state.cart!.isEmpty) {
                         return const Text('Cart is empty..');
                       } else {
                         final List<Cart> cartProductsQty = state.cart!;
@@ -54,14 +54,12 @@ class OrderOverView extends StatelessWidget {
                           (total, product) => total + product.price!,
                         );
                         double finalAmount = 0; // Initialize finalAmount
-                      for (int i = 0; i < cartProducts.length; i++) {
-                        final product = cartProducts[i];
-                        final cartQty = cartProductsQty[i];
-                        finalAmount +=
-                            (product.price ?? 0) * int.parse(cartQty.quantity);
-                      }
-                        BlocProvider.of<GetCartBloc>(context)
-                            .add(GetCartEvent.getCartList(userId, finalAmount, 0.0));
+                        for (int i = 0; i < cartProducts.length; i++) {
+                          final product = cartProducts[i];
+                          final cartQty = cartProductsQty[i];
+                          finalAmount += (product.price ?? 0) *
+                              int.parse(cartQty.quantity);
+                        }
                         return Column(
                           children: [
                             SizedBox(
@@ -71,13 +69,11 @@ class OrderOverView extends StatelessWidget {
                                 state: state,
                               ),
                             ),
-                            const CouponCodeContainer(),
                             const SizedBox(
                               height: 15,
                             ),
                             Container(
                               width: double.infinity,
-                              height: 570,
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey),
                                 borderRadius: BorderRadius.circular(15),
@@ -88,10 +84,35 @@ class OrderOverView extends StatelessWidget {
                                   builder: (context, userState) {
                                     final amount = state.totalPrice;
                                     final address = userState.user.addresses;
-                                    if(address.isEmpty){
-                                      return PaymentAndAddress(totalPrice: amount, shippingfee: shippingfee, tax: tax, discountamt: discountamt, total: total, address: address[0], userState: userState,);
+                                    if (address.isEmpty) {
+                                      return PaymentAndAddress(
+                                        totalPrice: state.totalPrice,
+                                        shippingfee: shippingfee,
+                                        tax: tax,
+                                        discountamt: discountamt,
+                                        total: total,
+                                        address: Address(
+                                            name: '',
+                                            street: '',
+                                            city: '',
+                                            state: '',
+                                            postalCode: '',
+                                            country: '',
+                                            phoneNumber: 0),
+                                        userState: userState,
+                                        isAddressEmpty: true,
+                                      );
                                     }
-                                    return PaymentAndAddress(totalPrice: amount, shippingfee: shippingfee, tax: tax, discountamt: discountamt, total: total, address: address[0], userState: userState,);
+                                    return PaymentAndAddress(
+                                      totalPrice: amountTotal,
+                                      shippingfee: shippingfee,
+                                      tax: tax,
+                                      discountamt: discountamt,
+                                      total: total,
+                                      address: address[0],
+                                      userState: userState,
+                                      isAddressEmpty: false,
+                                    );
                                   },
                                 ),
                               ),
@@ -106,6 +127,13 @@ class OrderOverView extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: const OrderOverviewCheckout(total: total));
+        bottomNavigationBar: BlocBuilder<GetCartBloc, GetCartState>(
+          builder: (context, state) {
+            if(state.cart!.isEmpty){
+              return const OrderOverviewCheckout(total: 0);
+            }
+            return const OrderOverviewCheckout(total: total);
+          },
+        ));
   }
 }

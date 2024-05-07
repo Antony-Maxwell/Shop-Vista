@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:shop_vista/application/home/get_cart/get_cart_bloc.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 
@@ -21,19 +22,40 @@ class TCartCounterIcon extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, userstate) {
         if(userstate.isLoading){
-          return const CircularProgressIndicator();
+          return const LoadingIndicator(
+                indicatorType: Indicator.ballClipRotateMultiple,
+                colors: [
+                  Colors.blue,
+                  Colors.white,
+                ],
+                strokeWidth: 2,
+              );
         }else{
           BlocProvider.of<GetCartBloc>(context)
-        .add(GetCartEvent.getCartList(userstate.user.userId!, 0.0, 0.0));
+        .add(GetCartEvent.getCartList(userstate.user.userId, 0.0, 0.0));
         }
         return BlocBuilder<GetCartBloc, GetCartState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return const CircularProgressIndicator();
+              return const LoadingIndicator(
+                indicatorType: Indicator.ballClipRotateMultiple,
+                colors: [
+                  Colors.blue,
+                  Colors.white,
+                ],
+                strokeWidth: 2,
+              );
             } else if (state.cart == null) {
-              return const CircularProgressIndicator();
+              return const LoadingIndicator(
+                indicatorType: Indicator.ballClipRotateMultiple,
+                colors: [
+                  Colors.blue,
+                  Colors.white,
+                ],
+                strokeWidth: 2,
+              );
             }
-            final count = state.cart!.length-1;
+            final count = state.cart!.length;
             return Stack(
               children: [
                 IconButton(
@@ -42,6 +64,7 @@ class TCartCounterIcon extends StatelessWidget {
                       Iconsax.shopping_bag,
                       color: iconColor,
                     )),
+                    if(count != 0)
                 Positioned(
                   right: 0,
                   child: Container(
@@ -60,7 +83,8 @@ class TCartCounterIcon extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
+                )
+                else SizedBox(),
               ],
             );
           },

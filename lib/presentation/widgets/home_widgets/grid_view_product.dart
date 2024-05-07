@@ -48,8 +48,7 @@ class TGridViewProduct extends StatelessWidget {
                       final attributes1 = product.productsAttributes![0];
                       final attributes2 = product.productsAttributes![1];
                       final attVal1 = product.productsAttributes;
-                      final iconColor = wishState.wishList != null &&
-                              wishState.wishList!.contains(product.id)
+                      final iconColor = wishState.wishList != null && wishState.wishList!.contains(product.id)
                           ? Colors.red
                           : Colors.grey;
                       return TProductCardWidget(

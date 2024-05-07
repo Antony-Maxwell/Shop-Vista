@@ -6,38 +6,50 @@ import 'package:shop_vista/infrastructure/user_detail_imp/user_detail_impl.dart'
 class OrderHelper{
 
   Future<void> updateOrder(List<Cart> cartItems, orderId )async{
-    List<String> productIds = [];
+  Future<void> updateDummyOrderToFirebase(List<Cart> cartItems, orderId ) async {
+
+        List<String> productIds = [];
     for (var cart in cartItems) {
       productIds.add(cart.productId);
     }
+  // Create a dummy order data
+  Map<String, dynamic> orderData = {
+    'Status': 'Pending',
+    'ProductIds': productIds,
+    'OrderId': orderId,
+    'Date': DateTime.now().toIso8601String(),
+  };
 
-    Orders orders = Orders(orderId: orderId, productIds: productIds, date: DateTime.now().toString(), status: 'Pending');
-     try {
-      // Get current user from FirebaseAuth
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) return;
+  // Get current user ID from FirebaseAuth
+  String? userId = FirebaseAuth.instance.currentUser?.uid;
 
-      // Update profilePicture field in Firestore
-    Map<String, dynamic> ordersJson = orders.toJson();
+  // Update the order data to Firebase
+  if (userId != null) {
+    try {
+      // Get existing user data
+      DocumentSnapshot userDocSnapshot =
+          await FirebaseFirestore.instance.collection('Users').doc(userId).get();
 
-      await FirebaseFirestore.instance.collection('Users').doc(user.uid).update({'Orders': ordersJson});
+      // Extract existing orders list
+      List<dynamic> existingOrders = (userDocSnapshot.data() as Map<String, dynamic>)['Orders'] ?? [];
 
-      print('Profile picture updated successfully');
-      await Future.delayed(const Duration(seconds: 1));
-    // Fetch user details
-    final userDetails = await UserDetailsImplementation().getUserDetails();
-    userDetails.fold(
-      (failure) {
-        print('Failed to fetch user details: $failure');
-      },
-      (userModel) {
-        print('User details fetched successfully: $userModel');
-      },
-    );
+      // Add the dummy order to the existing list
+      existingOrders.add(orderData);
+
+      // Update the Orders field with the updated list
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userId)
+          .update({'Orders': existingOrders});
+
+      print('order data updated successfully');
     } catch (e) {
-      print('Failed to update profile picture: $e');
+      print('Failed to update order data: $e');
     }
-print('///////////////////////////////////////////>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  } else {
+    print('No user is currently logged in');
   }
+}
   
+  }
 }

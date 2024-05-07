@@ -18,7 +18,7 @@ class TMainBannerContainer extends StatelessWidget {
       builder: (context, state) {
         return BlocBuilder<BannersBlocBloc, BannersState>(
           builder: (ctx, bannerState) {
-            return bannerState.isLoading || bannerState.banners == null
+            return bannerState.isLoading || bannerState.banners ==  null
                 ? BannerShimmer().buildShimmer()
                 : CarouselSlider.builder(
                     itemCount: bannerState.banners!.length,

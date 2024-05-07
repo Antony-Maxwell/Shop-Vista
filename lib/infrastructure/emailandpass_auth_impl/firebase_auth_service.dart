@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_vista/application/home/bottom_navigation_bloc/bloc/bottom_navigation_bloc.dart';
 import 'package:shop_vista/domain/User/user_model/user_model.dart';
 import 'package:shop_vista/presentation/auth/login.dart';
 import 'package:shop_vista/presentation/widgets/navigation_menu.dart';
@@ -21,34 +23,21 @@ class FirebaseAuthServices {
     try {
       CollectionReference usersCollection =
           FirebaseFirestore.instance.collection('Users');
-
-      Address address = Address(
-        city: 'fgh',
-        country: 'cv',
-        name: 'ftgh',
-        phoneNumber: 65132,
-        postalCode: 'ycv',
-        state: 'gh',
-        street: 'oiuy',
-      );
-      Orders orders = Orders(orderId: 'aadvsaaj', productIds: [], date: DateTime.now().toString(), status: 'Pending');
-
       UserModel user = UserModel(
         userId: usersCollection.id,
-          addresses: [address],
-          cart: [],
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          password: password,
-          phoneNumber: phoneNumber,
-          profilePicture: profilePic,
-          userName: username,
-          wishlist: [],
-          orders: [orders],
-          );
-      print(
-          'wooooooooooooooooooooooooooooooooooooooooooooooooooooowwwwwwwwwwwww');
+        addresses: [],
+        cart: [],
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: password,
+        phoneNumber: phoneNumber,
+        profilePicture: profilePic,
+        userName: username,
+        wishlist: [],
+        orders: [],
+      );
+      print('wooooooooooooooooooooooooooooooooooooooooooooooooooooowwwwwwwwwwwww');
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       await usersCollection.doc(credential.user?.uid).set({
@@ -113,7 +102,8 @@ class FirebaseAuthServices {
                       return LoginScreen();
                     },
                   ), (route) => false);
-                  
+                  BlocProvider.of<BottomNavigationBloc>(context)
+                  .add(TabChange(tabIndex: 0));
                 },
                 child: Text("Logout"),
               ),

@@ -122,6 +122,7 @@ class ProfilePictureWidget extends StatelessWidget {
           .update({'ProfilePicture': downloadUrl});
 
       print('Profile picture updated successfully');
+      const ScaffoldMessenger(child: SnackBar(content: Text('Successfully updated your profile')));
     } catch (e) {
       print('Failed to update profile picture: $e');
     }

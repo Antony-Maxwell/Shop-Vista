@@ -74,4 +74,27 @@ class ShimmerProduct {
       },
     );
   }
+
+    buildShimmerEffectCategoryDark() {
+    return ListView.separated(
+      separatorBuilder: (context, index) => kHeight,
+      itemCount: 5, // Adjust the number of shimmer items as needed
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: Colors.grey.shade500,
+          highlightColor: Colors.grey.shade800,
+          child: Container(
+            height: 170,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

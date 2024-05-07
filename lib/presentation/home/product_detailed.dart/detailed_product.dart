@@ -14,6 +14,7 @@ import 'package:shop_vista/presentation/home/product_detailed.dart/widgets/descr
 import 'package:shop_vista/presentation/home/product_detailed.dart/widgets/detailed_image_widget.dart';
 import 'package:shop_vista/presentation/home/product_detailed.dart/widgets/product_name.dart';
 import 'package:shop_vista/presentation/home/product_detailed.dart/widgets/rating_and_share.dart';
+import 'package:shop_vista/presentation/home/product_detailed.dart/widgets/reviews.dart';
 import 'package:shop_vista/presentation/home/product_detailed.dart/widgets/stock_check.dart';
 
 class ProductDetailedPage extends StatelessWidget {
@@ -46,7 +47,7 @@ class ProductDetailedPage extends StatelessWidget {
       required this.mainImage,
       this.sizeVals,
       this.stockCount,
-      this.description});
+      this.description,});
 
   final stock = "inStock";
 
@@ -70,7 +71,7 @@ class ProductDetailedPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const TRatingandShare(),
+                      TRatingandShare(productId: productId),
                       const SizedBox(
                         height: 10,
                       ),
@@ -164,14 +165,16 @@ class ProductDetailedPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Reviews  (199)",
+                            "Reviews ",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewsScreen(productId: productId),));
+                            },
                             icon: const Icon(Icons.arrow_forward_ios_outlined),
                           ),
                         ],
@@ -183,6 +186,12 @@ class ProductDetailedPage extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: TBottomAddtoCart(
+            isDialog: false,
+            padding: 15,
+            iconSize: 35,
+            height: 50,
+            width: 50,
+            isCart: false,
             productId: productId,
           ),
         );

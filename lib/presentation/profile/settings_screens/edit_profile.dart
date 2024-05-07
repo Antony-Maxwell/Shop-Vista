@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 import 'package:shop_vista/core/constants/sizedBox.dart';
+import 'package:shop_vista/presentation/auth/sign_up.dart';
+import 'package:shop_vista/presentation/profile/settings_screens/edit_profile_details_dialog.dart';
 import 'package:shop_vista/presentation/profile/widgets/profile_pic.dart';
 import 'package:shop_vista/presentation/widgets/appbar_widgets/appbar.dart';
 import 'package:shop_vista/presentation/widgets/section_heading/section_heading.dart';
@@ -38,12 +40,32 @@ class EditProfileScreen extends StatelessWidget {
                     kHeight,
                     UserDetailsFeild(
                         hintText: 'Name',
-                        onpressed: () {},
+                        onpressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AddProfileDetails(
+                                documentId: state.user.userId,
+                                field: 'FirstName',
+                              );
+                            },
+                          );
+                        },
                         value: state.user.firstName + state.user.lastName),
                     UserDetailsFeild(
                         hintText: 'Username',
                         value: state.user.userName,
-                        onpressed: () {}),
+                        onpressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AddProfileDetails(
+                                documentId: state.user.userId,
+                                field: 'UserName',
+                              );
+                            },
+                          );
+                        }),
                     kHeight,
                     const Divider(thickness: 2),
                     const TSectionHeading(
@@ -52,11 +74,31 @@ class EditProfileScreen extends StatelessWidget {
                     UserDetailsFeild(
                         hintText: 'Email',
                         value: state.user.email,
-                        onpressed: () {}),
+                        onpressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AddProfileDetails(
+                                documentId: state.user.userId,
+                                field: 'Email',
+                              );
+                            },
+                          );
+                        }),
                     UserDetailsFeild(
                         hintText: 'Phone Number',
                         value: state.user.phoneNumber.toString(),
-                        onpressed: () {}),
+                        onpressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AddProfileDetails(
+                                documentId: state.user.userId,
+                                field: 'PhoneNumber',
+                              );
+                            },
+                          );
+                        }),
                     kHeight,
                     const Divider(thickness: 2),
                     const TSectionHeading(
@@ -111,7 +153,7 @@ class UserDetailsFeild extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_forward)),
+        IconButton(onPressed: onpressed, icon: const Icon(Icons.arrow_forward)),
       ],
     );
   }

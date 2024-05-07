@@ -29,6 +29,9 @@ Products _$ProductsFromJson(Map<String, dynamic> json) => Products(
       sku: json['SKU'] as String?,
       stock: json['Stock'] as int?,
       id: json['Id'] as String?,
+      reviews: (json['Reviews'] as List<dynamic>?)
+          ?.map((e) => Reviews.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ProductsToJson(Products instance) => <String, dynamic>{
@@ -47,6 +50,7 @@ Map<String, dynamic> _$ProductsToJson(Products instance) => <String, dynamic>{
       'SKU': instance.sku,
       'Stock': instance.stock,
       'Id': instance.id,
+      'Reviews': instance.reviews,
     };
 
 ProductsAttribute _$ProductsAttributeFromJson(Map<String, dynamic> json) =>
@@ -115,4 +119,18 @@ Map<String, dynamic> _$AttributeValuesToJson(AttributeValues instance) =>
     <String, dynamic>{
       'Size': instance.size,
       'Color': instance.color,
+    };
+
+Reviews _$ReviewsFromJson(Map<String, dynamic> json) => Reviews(
+      date: json['Date'] as String?,
+      description: json['ReviewDescription'] as String?,
+      rating: json['Rating'] as String?,
+      userId: json['UserId'] as String?,
+    );
+
+Map<String, dynamic> _$ReviewsToJson(Reviews instance) => <String, dynamic>{
+      'Date': instance.date,
+      'Rating': instance.rating,
+      'ReviewDescription': instance.description,
+      'UserId': instance.userId,
     };

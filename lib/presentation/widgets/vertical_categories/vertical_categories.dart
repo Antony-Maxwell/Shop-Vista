@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_vista/helpers/helper.dart';
 
@@ -28,12 +29,14 @@ class TVerticalCategories extends StatelessWidget {
             Container(
               width: 56,
               height: 56,
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                   color:
                       backGroundColor ?? (dark ? Colors.black : Colors.white),
                   borderRadius: BorderRadius.circular(100)),
-              child: Center(child: Image.network(image!)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(imageUrl: image!, fit: BoxFit.cover,)),
             ),
             SizedBox(
               width: 55,

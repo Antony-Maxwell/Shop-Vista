@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:shop_vista/domain/home/products/model/products.dart';
+import 'package:shop_vista/presentation/home/cart/cart_container/add_cart_dialog.dart';
 
 class TProductDetails extends StatelessWidget {
   const TProductDetails({
@@ -7,11 +9,18 @@ class TProductDetails extends StatelessWidget {
     required this.productName,
     required this.brand,
     required this.amount,
+    this.sizeVals,
+    this.attVal1,
+    this.attVal2, required this.productId,
   });
 
   final String productName;
   final String brand;
   final amount;
+  final List<ProductsAttribute>? sizeVals;
+  final attVal1;
+  final attVal2;
+  final String productId;
 
   @override
   Widget build(BuildContext context) {
@@ -53,18 +62,34 @@ class TProductDetails extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Container(
-              height: 40,
-              width: 40,
-              decoration: const BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(15),
-                  )),
-              child: const Icon(
-                Iconsax.add,
-                color: Colors.white,
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AddCartDialogue(
+                      productId: productId,
+                      productName: productName,
+                      sizeVals: sizeVals,
+                      attVal1: attVal1,
+                      attVal2: attVal2,
+                    );
+                  },
+                );
+              },
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration: const BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(15),
+                    )),
+                child: const Icon(
+                  Iconsax.add,
+                  color: Colors.white,
+                ),
               ),
             )
           ],

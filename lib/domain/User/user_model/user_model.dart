@@ -113,16 +113,22 @@ class Address {
 class Cart {
   String productId;
   String quantity;
+  String color;
+  String size;
 
   Cart({
     required this.productId,
     required this.quantity,
+    required this.color,
+    required this.size,
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
     return Cart(
       productId: json['ProductId'] ?? "",
       quantity: json['Quantity'] ?? "",
+      color: json['Color'] ?? "",
+      size: json['Size'] ?? "",
     );
   }
 
@@ -130,39 +136,48 @@ class Cart {
     return {
       'ProductId': productId,
       'Quantity': quantity,
+      'Color' : color,
+      'Size' : size,
     };
   }
 }
 
 class Orders {
-  String orderId;
-  List<String> productIds;
   String status;
+  List<String> productIds;
+  String orderId;
   String date;
+  Address address;
+  double orderTotal;
 
   Orders({
-    required this.orderId,
-    required this.productIds,
-    required this.date,
     required this.status,
+    required this.productIds,
+    required this.orderId,
+    required this.date,
+    required this.address,
+    required this.orderTotal,
   });
 
   factory Orders.fromJson(Map<String, dynamic> json) {
     return Orders(
+      status: json['Status'],
+      productIds: List<String>.from(json['ProductIds']),
       orderId: json['OrderId'],
-      productIds: List<String>.from(json['ProductIds'],
-      ),
       date: json['Date'],
-      status: json['Status']
+      address: Address.fromJson(json['Address']),
+      orderTotal: json['OrderTotal'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'OrderId' : orderId,
-      'ProductIds' : productIds,
-      'Status' : status,
-      'Date' : date,
+      'Status': status,
+      'ProductIds': productIds,
+      'OrderId': orderId,
+      'Date': date,
+      'Address' : address.toJson(),
+      'OrderTotal' : orderTotal,
     };
   }
 }

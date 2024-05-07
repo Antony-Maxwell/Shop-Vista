@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_vista/application/home/get_wishlist/getwishlist_bloc.dart';
 import 'package:shop_vista/domain/core/main_failures.dart';
 import 'package:shop_vista/domain/core/snackbar/custom_snackbar.dart';
 
@@ -13,29 +15,19 @@ class AddToWishlist{
       DocumentSnapshot userDocSnapshot = await userDocRef.get();
       Map<String, dynamic>? userData = userDocSnapshot.data() as Map<String, dynamic>?;
       List<String>? wishlist = List<String>.from(userData?['Wishlist'] ?? []);
-
-      // Check if the product already exists in the wishlist
       if (wishlist.contains(productId)) {
-        // Product already exists in the wishlist, show error snackbar
-        CustomSnackBar().showErrorSnackBar(context, 'Oops!.. Product is already in wishlist');
-        return const Right(false);
+        wishlist.remove(productId);
+        CustomSnackBar().showErrorSnackBar(context, 'Product removed successfully');
+         BlocProvider.of<GetwishlistBloc>(context).add(GetwishlistEvent.getWishlist(userId));
       } else {
-        // Add the product to the wishlist
         wishlist.add(productId);
         CustomSnackBar().showSuccessSnackBar(context,'Product added successfully');
       }
-
-      // Create a map with updated wishlist data
       Map<String, dynamic> updatedData = {'Wishlist': wishlist};
-
-      // Update only the wishlist field in the document
       await userDocRef.update(updatedData);
       print('success');
-
-      // Return Right indicating success
       return const Right(true);
     } catch (e) {
-      // Return Left with a MainFailure indicating failure
       return const Left(MainFailure.serverFailure());
     }
     }

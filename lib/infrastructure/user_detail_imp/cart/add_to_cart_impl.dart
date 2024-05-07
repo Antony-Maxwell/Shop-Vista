@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,6 @@ class AddToCartImplementation{
       int existingProductIndex = cart.indexWhere((item) => item['ProductId'] == productId);
 
       if (existingProductIndex != -1) {
-        // cart[existingProductIndex]['Quantity'] = quantity;
         CustomSnackBar().showErrorSnackBar(context, 'Product already in cart!..');
       } else {
         cart.add({'ProductId': productId, 'Quantity': quantity, 'Size' : size, 'Color' : color});
@@ -30,7 +31,9 @@ class AddToCartImplementation{
 
       await userDocRef.update(updatedData);
 
-      return Right(Cart(productId: productId, quantity: quantity));
+      final carti = Cart(productId: productId, quantity: quantity, color: color, size: size);
+      log(carti.productId);
+      return Right(Cart(productId: productId, quantity: quantity, color: color, size: size));
     } catch (e) {
       return const Left(MainFailure.serverFailure());
     }

@@ -2,22 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shop_vista/application/home/get_cart/get_cart_bloc.dart';
-import 'package:shop_vista/application/home/order/order_bloc.dart';
+import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
+import 'package:shop_vista/application/profile/address_selection/address_selection_bloc.dart';
 import 'package:shop_vista/domain/User/user_model/user_model.dart';
-import 'package:shop_vista/infrastructure/user_detail_imp/user_detail_impl.dart';
-import 'package:shop_vista/presentation/home/cart/order/widgets/order_helper.dart';
-import 'package:shop_vista/presentation/home/home_screen.dart';
+import 'package:shop_vista/presentation/widgets/home_widgets/payment_success.dart';
 import 'package:shop_vista/presentation/widgets/navigation_menu.dart';
 import 'package:upi_india/upi_india.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class UpiBottomSheet extends StatefulWidget {
   final orderId;
-  const UpiBottomSheet({required this.orderId, super.key, required this.cartItems, required this.userId});
+  const UpiBottomSheet(
+      {required this.orderId,
+      super.key,
+      required this.cartItems,
+      required this.userId, required this.orderTotal});
   final List<Cart> cartItems;
   final String userId;
+  final double orderTotal;
 
   @override
   State<UpiBottomSheet> createState() => _UpiBottomSheetState();
@@ -55,9 +58,85 @@ class _UpiBottomSheetState extends State<UpiBottomSheet> {
     super.initState();
   }
 
-   _handlePaymentSuccess(PaymentSuccessResponse response) async{
+  _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PaymentSuccessScreen(),
+        ),
+        (route) => false);
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
     print('payment success');
-    OrderHelper().updateOrder(widget.cartItems, widget.orderId);
+    await updateDummyOrderToFirebase();
+    await clearCartForUser(userId!);
+  }
+
+  Future<void> updateDummyOrderToFirebase() async {
+    List<String> productIds = [];
+    for (var cart in widget.cartItems) {
+      productIds.add(cart.productId);
+    }
+    // Create a dummy order data
+    DateTime selectedDate = DateTime.now();
+    String formattedDate =
+        "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}";
+
+    final userAddress = context.read<AddressBloc>();
+    final address = Address(
+        name: userAddress.state.address!.name,
+        street: userAddress.state.address!.street,
+        city: userAddress.state.address!.city,
+        state: userAddress.state.address!.state,
+        postalCode: userAddress.state.address!.postalCode,
+        country: userAddress.state.address!.country,
+        phoneNumber: userAddress.state.address!.phoneNumber);
+
+        final addressJson = address.toJson();
+    Map<String, dynamic> dummyOrderData = {
+      'Status': 'Pending',
+      'ProductIds': productIds,
+      'OrderId': widget.orderId,
+      'Date': formattedDate,
+      'Address': addressJson,
+      'OrderTotal' : widget.orderTotal,
+    };
+
+    // Get current user ID from FirebaseAuth
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
+
+    // Update the order data to Firebase
+    if (userId != null) {
+      try {
+        DocumentSnapshot userDocSnapshot = await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(userId)
+            .get();
+        List<dynamic> existingOrders =
+            (userDocSnapshot.data() as Map<String, dynamic>)['Orders'] ?? [];
+        existingOrders.add(dummyOrderData);
+        await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(userId)
+            .update({'Orders': existingOrders});
+
+        print('Dummy order data updated successfully');
+      } catch (e) {
+        print('Failed to update dummy order data: $e');
+      }
+    } else {
+      print('No user is currently logged in');
+    }
+  }
+
+  Future<void> clearCartForUser(String userId) async {
+    // Get a reference to the document for the specific user
+    DocumentReference userRef =
+        FirebaseFirestore.instance.collection('Users').doc(userId);
+
+    // Update the "cart" field to an empty list
+    await userRef.update({'Cart': []});
+    // Alternatively, delete the "cart" field
+    // await userRef.update({'cart': FieldValue.delete()});
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -94,7 +173,7 @@ class _UpiBottomSheetState extends State<UpiBottomSheet> {
       return Align(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Wrap(
             children: apps!.map<Widget>((UpiApp app) {
               return GestureDetector(
@@ -180,38 +259,47 @@ class _UpiBottomSheetState extends State<UpiBottomSheet> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: displayUpiApps(),
-          ),
-          BlocBuilder<GetCartBloc, GetCartState>(
-            builder: (context, state) {
-              return GestureDetector(
-                onTap: () {
-                  var options = {
-                    'key': 'rzp_test_8I0BLsGDT4H0Yd',
-                    'amount': state.totalPrice * 100 +
-                        state.orderTotal, //in the smallest currency sub-unit.
-                    'name': 'Shop Vista',
-                    'description': 'Fine T-Shirt',
-                    'timeout': 60, // in seconds
-                    'prefill': {
-                      'contact': '9000090000',
-                      'email': 'gaurav.kumar@example.com'
-                    }
-                  };
-                  _razorpay.open(options);
-                },
-                child: SizedBox(
-                  height: 70,
-                  width: 70,
-                  child: Image.asset(
-                    "assets/rzrpay.jpg",
-                    fit: BoxFit.cover,
+            flex: 5,
+            child: Container(
+              height: 250,
+              child: Column(
+                children: [
+                  displayUpiApps(),
+                  BlocBuilder<GetCartBloc, GetCartState>(
+                    builder: (context, state) {
+                      final totalBefore = state.totalPrice + 35;
+                      final totalAfter = totalBefore * 100;
+                      return GestureDetector(
+                        onTap: () {
+                          var options = {
+                            'key': 'rzp_test_8I0BLsGDT4H0Yd',
+                            'amount': totalAfter,
+                            'name': 'Shop Vista',
+                            'description': 'Fine T-Shirt',
+                            'timeout': 60, // in seconds
+                            'prefill': {
+                              'contact': '9000090000',
+                              'email': 'shopVista@co.com'
+                            }
+                          };
+                          _razorpay.open(options);
+                        },
+                        child: SizedBox(
+                          height: 70,
+                          width: 70,
+                          child: Image.asset(
+                            "assets/rzrpay.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
-              );
-            },
+                  const Text('RazorPay'),
+                ],
+              ),
+            ),
           ),
-          const Text('RazorPay'),
           Expanded(
             child: FutureBuilder(
               future: _transaction,

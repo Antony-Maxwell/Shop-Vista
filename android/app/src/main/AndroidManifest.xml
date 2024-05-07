@@ -8,7 +8,7 @@
     <application
         android:label="shop_vista"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/shopvista">
 
         <!-- Your existing activity -->
         <activity

@@ -38,8 +38,7 @@ class NavigationMenu extends StatelessWidget {
             destinations: bottomNavItems,
             selectedIndex: state.tabIndex,
             onDestinationSelected: (value) {
-              BlocProvider.of<BottomNavigationBloc>(context)
-                  .add(TabChange(tabIndex: value));
+              BlocProvider.of<BottomNavigationBloc>(context).add(TabChange(tabIndex: value));
             },
           ),
         );

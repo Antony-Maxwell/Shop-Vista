@@ -46,7 +46,7 @@ class TRoundedImage extends StatelessWidget {
               : BorderRadius.zero,
           child: CachedNetworkImage(
             imageUrl: imageUrl,
-            fit: BoxFit.cover,
+            fit: fit,
             placeholder: (context, url) {
               return Shimmer.fromColors(
                 baseColor: Colors.grey[300]!,

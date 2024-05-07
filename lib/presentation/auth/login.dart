@@ -5,6 +5,7 @@ import 'package:shop_vista/infrastructure/emailandpass_auth_impl/firebase_auth_s
 import 'package:shop_vista/infrastructure/facebook_auth_impl/facebook_auth_service.dart';
 import 'package:shop_vista/infrastructure/google_impl/google_auth_service.dart';
 import 'package:shop_vista/presentation/auth/sign_up.dart';
+import 'package:shop_vista/presentation/auth/widgets/login_text_field.dart';
 import 'package:shop_vista/presentation/widgets/blue_button.dart';
 import 'package:shop_vista/presentation/widgets/navigation_menu.dart';
 
@@ -63,10 +64,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 20,
                 ),
                 Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   key: _key,
                   child: Column(
                     children: [
                       logTextFeild(
+                          errrMsg: 'Enter your email',
                           emailController: _emailController,
                           hint: 'E-Mail',
                           icon: const Icon(Icons.email_outlined)),
@@ -74,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 10,
                       ),
                       logTextFeild(
+                        errrMsg: 'Enter your password',
                         emailController: _passwordController,
                         hint: 'Password',
                         icon: const Icon(Icons.password_sharp),
@@ -83,10 +87,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Sign(
                         onTap: () {
-                          _auth.signInWithEmailandPassword(
+                          if(_key.currentState!.validate()){
+                            _auth.signInWithEmailandPassword(
                               _emailController.text,
                               _passwordController.text,
                               context);
+                          }
                         },
                         color: Colors.blue,
                         title: 'Sign In',
@@ -204,33 +210,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class logTextFeild extends StatelessWidget {
-  const logTextFeild({
-    super.key,
-    required TextEditingController emailController,
-    required this.icon,
-    required this.hint,
-  }) : controller = emailController;
-
-  final TextEditingController controller;
-  final icon;
-  final hint;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        hintText: hint,
-        prefixIcon: icon,
       ),
     );
   }

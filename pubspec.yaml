@@ -45,6 +45,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.4
   flutter_facebook_auth: ^6.1.1
+  flutter_rating_bar: ^4.0.1
   freezed: null
   get_it: ^7.2.0
   google_sign_in: ^6.2.1
@@ -53,13 +54,16 @@ dependencies:
   injectable: ^1.5.3
   json_annotation: ^4.8.1
   json_serializable: null
+  loading_indicator: ^3.1.1
   lottie: null
   path_provider: null
   razorpay_flutter: ^1.3.6
   readmore: ^2.2.0
   shimmer: ^3.0.0
+  showcaseview: ^2.1.1
   upi_india: ^3.0.1
   upi_pay_india: ^1.0.2
+  url_launcher: ^6.2.6
   uuid: ^4.4.0
 
 dev_dependencies:
@@ -84,6 +88,12 @@ flutter:
     - assets/choose_product.json
     - assets/empty_orders.json
     - assets/payment_success.json
+    - assets/cart_empty.json
+    - assets/Animation - 1714028968870.json
+    - assets/empty-cart-ecommerce-3d-icon-png.png
+    - assets/Animation - 1714478418629.json
+    - assets/Animation - 1714479182051.json
+    - assets/cart-removebg-preview.png
     - assets/select.json
     - assets/delivery.json
     - assets/icons8-google-48.png

@@ -28,6 +28,7 @@ class OrderOverviewCheckout extends StatelessWidget {
                   return BlocBuilder<UserBloc, UserState>(
                     builder: (context, userstate) {
                       return UpiBottomSheet(
+                        orderTotal: state.totalPrice,
                         userId: userstate.user.userId,
                         cartItems: state.cart!,
                         orderId: orderId,

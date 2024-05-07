@@ -57,9 +57,6 @@ class StoreScreen extends StatelessWidget {
                     automaticallyImplyLeading: false,
                     pinned: true,
                     floating: true,
-                    backgroundColor: THelperFunctions.isDarkMode(context)
-                        ? Colors.black
-                        : Colors.white,
                     expandedHeight: 300,
                     flexibleSpace: Padding(
                       padding: const EdgeInsets.all(10),

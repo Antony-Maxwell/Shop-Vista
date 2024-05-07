@@ -19,7 +19,7 @@ class TDiscountContainer extends StatelessWidget {
       top: 8, // Adjust top position as needed
       left: 8, // Adjust left position as needed
       child: Container(
-        width: 35,
+        width: 45,
         height: 20, // Example color
         decoration: BoxDecoration(
             color: Colors.yellow.withOpacity(0.5),

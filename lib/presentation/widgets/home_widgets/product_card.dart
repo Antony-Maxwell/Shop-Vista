@@ -48,9 +48,8 @@ class TProductCardWidget extends StatelessWidget {
     print(amount);
     print(salePrice);
     final dark = THelperFunctions.isDarkMode(context);
-    return BlocBuilder<UserBloc,UserState>(
-      builder: (context, state) {
-        return  GestureDetector(
+    return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+      return GestureDetector(
         onTap: () => Navigator.push(context, MaterialPageRoute(
           builder: (context) {
             return ProductDetailedPage(
@@ -77,7 +76,8 @@ class TProductCardWidget extends StatelessWidget {
           decoration: BoxDecoration(
             boxShadow: [TShadowStyle.verticalProductShadow],
             borderRadius: BorderRadius.circular(16),
-            color: dark ? Colors.grey : const Color.fromARGB(255, 238, 236, 236),
+            color:
+                dark ? Colors.grey : const Color.fromARGB(255, 238, 236, 236),
           ),
           child: Padding(
             padding: const EdgeInsets.all(3.0),
@@ -86,10 +86,15 @@ class TProductCardWidget extends StatelessWidget {
                 Stack(
                   children: [
                     // Product image
-                    TRoundedImage( width: double.infinity,  height:  177,isNetworkImage: true, imageUrl: imageUrl),
+                    TRoundedImage(
+                      fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 177,
+                        isNetworkImage: true,
+                        imageUrl: imageUrl),
                     TDiscountContainer(
                       ogPrice: amount,
-                      salePrice:salePrice,
+                      salePrice: salePrice,
                     ),
                     TFavIcon(
                       iconColortemp: iconColor!,
@@ -102,7 +107,11 @@ class TProductCardWidget extends StatelessWidget {
                   height: 5,
                 ),
                 TProductDetails(
-                  amount: amount,
+                  productId: productId,
+                  sizeVals: attVals,
+                  attVal1: attVals![0].values![0].toString(),
+                  attVal2: attVals![0].values![1].toString(),
+                  amount: salePrice,
                   brand: brand,
                   productName: productName,
                 ),
@@ -111,7 +120,6 @@ class TProductCardWidget extends StatelessWidget {
           ),
         ),
       );
-      }
-    );
+    });
   }
 }

@@ -15,7 +15,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<BrandBloc>(context).add(const GetBrandsList());
-  
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

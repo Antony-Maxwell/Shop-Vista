@@ -110,7 +110,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   try {
     User? user = FirebaseAuth.instance.currentUser;
     await user?.sendEmailVerification();
-    print('Verification email sent');
+    ScaffoldMessenger(child: SnackBar(content: Text("we've sent you a verification mail")));
   } catch (e) {
     print('Failed to send verification email: $e');
   }

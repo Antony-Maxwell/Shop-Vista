@@ -33,6 +33,8 @@ class Products {
   int? stock;
   @JsonKey(name: 'Id')
   String? id;
+  @JsonKey(name: 'Reviews')
+  List<Reviews>? reviews;
 
   Products({
     this.categoryId,
@@ -50,6 +52,7 @@ class Products {
     this.sku,
     this.stock,
     this.id,
+    this.reviews,
   });
 
   factory Products.fromJson(Map<String, dynamic> json) {
@@ -151,4 +154,24 @@ class AttributeValues {
   }
 
   Map<String, dynamic> toJson() => _$AttributeValuesToJson(this);
+}
+
+@JsonSerializable()
+class Reviews{
+  @JsonKey(name: 'Date')
+  String? date;
+  @JsonKey(name: 'Rating')
+  String? rating;
+  @JsonKey(name: 'ReviewDescription')
+  String? description;
+  @JsonKey(name: 'UserId')
+  String? userId;
+
+  Reviews({this.date, this.description, this.rating, this.userId});
+
+  factory Reviews.fromJson(Map<String, dynamic> json) {
+    return _$ReviewsFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() => _$ReviewsToJson(this);
 }

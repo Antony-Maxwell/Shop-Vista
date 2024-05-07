@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 import 'package:shop_vista/presentation/home/cart/cart_screen.dart';
 import 'package:shop_vista/presentation/widgets/appbar_widgets/appbar.dart';
+import 'package:shop_vista/presentation/widgets/home_widgets/no_user_dialog.dart';
 import 'package:shop_vista/presentation/widgets/product_cart/cart_menu_icon.dart';
 
 class THomeAppBar extends StatelessWidget {

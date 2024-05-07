@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
+import 'package:shop_vista/presentation/profile/widgets/profile_heading_shimmer.dart';
 
 class UserProfileSettings extends StatelessWidget {
   const UserProfileSettings({
@@ -16,7 +17,7 @@ class UserProfileSettings extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state.isLoading) {
-          return const SizedBox();
+          return ProfileShimmer().buildShimmer();
         }
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

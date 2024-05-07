@@ -20,7 +20,6 @@ class GetCartImplementation implements GetCartService {
         List<Cart> cart = cartData.map((item) => Cart.fromJson(item)).toList();
         return Right(cart);
       } else {
-        // Return an empty list if the cart data is not found or is null
         return const Right([]);
       }
     } catch (e) {

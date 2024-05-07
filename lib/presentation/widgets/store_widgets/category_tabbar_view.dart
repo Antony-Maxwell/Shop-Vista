@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_vista/application/home/products/products_bloc.dart';
 import 'package:shop_vista/presentation/widgets/home_widgets/grid_view_product.dart';
+import 'package:shop_vista/presentation/widgets/product_cart/shimmer.dart';
 import 'package:shop_vista/presentation/widgets/store_widgets/brand_container.dart';
 
 class TCategoryTabView extends StatelessWidget {
@@ -24,14 +27,32 @@ class TCategoryTabView extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                BrandContainer(
-                  id: '',
-                  brandLogo: logo,
-                  brandName: name,
-                  image:
-                      "https://firebasestorage.googleapis.com/v0/b/flutter-e-commerce-app-51ccb.appspot.com/o/VariationImage%2F1711943149593304?alt=media&token=a78f7c49-ecad-49da-8c81-8cb9b0c92ea4",
-                  height: 220,
-                  isAvailable: true,
+                BlocBuilder<ProductsBloc, ProductsState>(
+                  builder: (context, state) {
+                    if (state.isLoading) {
+                      return ShimmerProduct().buildShimmerEffectCategory();
+                    } else {
+                      final filteredProducts =
+                          state.productsList.where((product) {
+                        return product.brand!.id == id;
+                      }).toList();
+                      if (filteredProducts.isEmpty) {
+                        return const Center(
+                          child: Text('No featured products for this brand'),
+                        );
+                      } else {
+                        final List<String> thumbnails = filteredProducts.map((product) => product.thumbnail!).take(3).toList();
+                        return BrandContainer(
+                          id: id,
+                          brandLogo: logo,
+                          brandName: name,
+                          image: thumbnails,
+                          height: 220,
+                          isAvailable: true,
+                        );
+                      }
+                    }
+                  },
                 ),
                 const SizedBox(
                   height: 10,

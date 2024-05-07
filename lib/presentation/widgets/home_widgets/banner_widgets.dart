@@ -13,9 +13,19 @@ class TBannerWidget extends StatelessWidget {
     return Container(
       height: 200,
       width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(20), boxShadow: [
+        BoxShadow(
+          color: Colors.grey.shade300,
+          spreadRadius: 1,
+          blurRadius: 5,
+          offset: const Offset(0, 5),
+        ),
+        BoxShadow(
+          color: Colors.grey.shade300,
+          offset: const Offset(-5, 0),
+        )
+      ]),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: CachedNetworkImage(

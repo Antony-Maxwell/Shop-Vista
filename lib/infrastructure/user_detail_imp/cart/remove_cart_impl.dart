@@ -27,7 +27,7 @@ class RemoveFromCartImplementation{
 
       await userDocRef.update(updatedData);
 
-      return Right(Cart(productId: productId, quantity: '0')); // Return a placeholder Cart object
+      return Right(Cart(productId: productId, quantity: '0', color: '', size: '')); // Return a placeholder Cart object
     } catch (e) {
       return const Left(MainFailure.serverFailure());
     }
