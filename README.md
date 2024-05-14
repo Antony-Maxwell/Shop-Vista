@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+there are some basic functionalities are missing, feel free to find out and contribute.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
