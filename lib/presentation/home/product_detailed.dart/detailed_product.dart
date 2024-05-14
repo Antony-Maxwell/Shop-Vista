@@ -68,118 +68,121 @@ class ProductDetailedPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TRatingandShare(productId: productId),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      AmountAndDiscount(
-                        salePrice: salePrice,
-                        realPrice: amount,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      productName(
-                        productname: productname,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      StockCheck(stock: stockCount),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BrandName(
-                        brandName: brandName,
-                      ),
-                      kHeight,
-                      Text(
-                        attributes1,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      TChoiceColors(
-                        val1: attVal1,
-                        val2: attVal2,
-                      ),
-                      Text(
-                        attributes2,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      TChoiceSize(
-                        sizesList: sizeVals,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    CartScreen(userId: state.user.userId!),
-                              ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Colors.grey,
-                                    offset: Offset(1.1, 1.1),
-                                    blurRadius: 5.0,
-                                    spreadRadius: 1.0)
-                              ],
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(15)),
-                          width: double.infinity,
-                          height: 50,
-                          child: const Center(
-                            child: Text(
-                              'CheckOut',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TRatingandShare(productId: productId),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        AmountAndDiscount(
+                          salePrice: salePrice,
+                          realPrice: amount,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        productName(
+                          productname: productname,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        StockCheck(stock: stockCount),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BrandName(
+                          brandName: brandName,
+                        ),
+                        kHeight,
+                        Text(
+                          attributes1,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        TChoiceColors(
+                          val1: attVal1,
+                          val2: attVal2,
+                        ),
+                        Text(
+                          attributes2,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        TChoiceSize(
+                          sizesList: sizeVals,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      CartScreen(userId: state.user.userId!),
+                                ));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      offset: Offset(1.1, 1.1),
+                                      blurRadius: 5.0,
+                                      spreadRadius: 1.0)
+                                ],
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(15)),
+                            width: double.infinity,
+                            height: 50,
+                            child: const Center(
+                              child: Text(
+                                'CheckOut',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text('Description',
-                          style: TextStyle(
-                            fontSize: 17,
-                          )),
-                      Description(
-                        description: description,
-                      ),
-                      const Divider(
-                        thickness: 2,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Reviews ",
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text('Description',
                             style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            )),
+                        Description(
+                          description: description,
+                        ),
+                        const Divider(
+                          thickness: 2,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Reviews ",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewsScreen(productId: productId),));
-                            },
-                            icon: const Icon(Icons.arrow_forward_ios_outlined),
-                          ),
-                        ],
-                      )
-                    ],
+                            IconButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewsScreen(productId: productId),));
+                              },
+                              icon: const Icon(Icons.arrow_forward_ios_outlined),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -45,6 +45,7 @@ class TSearchBarWidget extends StatelessWidget {
                   ));
             },
             child: Container(
+              height: 60,
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -58,16 +59,25 @@ class TSearchBarWidget extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    icon,
-                    color: Colors.grey,
+                  Expanded(
+                    flex: 1,
+                    child: Icon(
+                      icon,
+                      color: Colors.grey,
+                    ),
                   ),
-                  const SizedBox(
-                    width: 30,
+                  const Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      width: 30,
+                    ),
                   ),
-                  Text(
-                    text,
-                    style: Theme.of(context).textTheme.bodySmall,
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      text,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   )
                 ],
               ),

@@ -92,9 +92,13 @@ class TProductCardWidget extends StatelessWidget {
                         height: 177,
                         isNetworkImage: true,
                         imageUrl: imageUrl),
-                    TDiscountContainer(
-                      ogPrice: amount,
-                      salePrice: salePrice,
+                    Positioned(
+                      left: 8,
+                      top: 8,
+                      child: TDiscountContainer(
+                        ogPrice: amount,
+                        salePrice: salePrice,
+                      ),
                     ),
                     TFavIcon(
                       iconColortemp: iconColor!,

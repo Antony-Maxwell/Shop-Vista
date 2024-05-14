@@ -20,24 +20,28 @@ class TMainBannerContainer extends StatelessWidget {
           builder: (ctx, bannerState) {
             return bannerState.isLoading || bannerState.banners ==  null
                 ? BannerShimmer().buildShimmer()
-                : CarouselSlider.builder(
-                    itemCount: bannerState.banners!.length,
-                    itemBuilder: (context, index, realIndex) {
-                      final bannerImage = bannerState.banners![index];
-                      return TBannerWidget(
-                        imageUrl: bannerImage.imageUrl,
-                      );
-                    },
-                    options: CarouselOptions(
-                      enlargeCenterPage: true,
-                      onPageChanged: (index, reason) {
-                        state.page = index;
-                        BlocProvider.of<PageIndicatorBloc>(context).add(PageIndicatorEvent());
+                : SizedBox(
+                  height: 215,
+                  width: double.infinity,
+                  child: CarouselSlider.builder(
+                      itemCount: bannerState.banners!.length,
+                      itemBuilder: (context, index, realIndex) {
+                        final bannerImage = bannerState.banners![index];
+                        return TBannerWidget(
+                          imageUrl: bannerImage.imageUrl,
+                        );
                       },
-                      autoPlay: true,
-                      viewportFraction: 0.8,
+                      options: CarouselOptions(
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          state.page = index;
+                          BlocProvider.of<PageIndicatorBloc>(context).add(PageIndicatorEvent());
+                        },
+                        autoPlay: true,
+                        viewportFraction: 0.8,
+                      ),
                     ),
-                  );
+                );
           },
         );
       },

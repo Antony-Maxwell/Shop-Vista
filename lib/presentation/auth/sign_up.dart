@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_vista/domain/core/snackbar/custom_snackbar.dart';
 import 'package:shop_vista/infrastructure/emailandpass_auth_impl/firebase_auth_service.dart';
 import 'package:shop_vista/infrastructure/facebook_auth_impl/facebook_auth_service.dart';
 import 'package:shop_vista/infrastructure/google_impl/google_auth_service.dart';
@@ -7,6 +8,7 @@ import 'package:shop_vista/presentation/auth/verify_email.dart';
 import 'package:shop_vista/presentation/widgets/navigation_menu.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -26,6 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _confirmPassController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool checkedVal = true;
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -42,158 +45,169 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                          child: SignTextFeild(
-                            errorMsg: "Enter your first name",
-                              emailController: _firstnameController,
-                              icon: const Icon(Icons.person),
-                              hint: 'First Name')),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: SignTextFeild(
-                              errorMsg: 'Enter your last name',
-                              emailController: _lastnameController,
-                              icon: const Icon(Icons.person),
-                              hint: 'Last Name')),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SignTextFeild(
-                    errorMsg: "Enter your desired username",
-                      emailController: _usernameController,
-                      icon: const Icon(Icons.person_2_sharp),
-                      hint: 'Username'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SignTextFeild(
-                    errorMsg: "Email can't be empty",
-                      emailController: _emailController,
-                      icon: const Icon(Icons.email_outlined),
-                      hint: 'E-Mail'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SignTextFeild(
-                    errorMsg: "Enter your phone number",
-                      emailController: _phoneNumberController,
-                      icon: const Icon(Icons.phone_android_sharp),
-                      hint: 'Phone Number'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SignTextFeild(
-                    errorMsg: "Enter your password",
-                      emailController: _passwordController,
-                      icon: const Icon(Icons.password),
-                      hint: 'Password'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SignTextFeild(
-                    errorMsg: "Again confirm your password",
-                      emailController: _confirmPassController,
-                      icon: const Icon(Icons.password_sharp),
-                      hint: 'Confirm Password'),
-                  Row(
-                    // crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Checkbox(
-                        value: checkedVal,
-                        onChanged: (value) {
-                          setState(() {
-                            checkedVal = value!;
-                          });
-                        },
-                        activeColor: Colors.blue,
-                      ),
-                      Link(
-                        target: LinkTarget.self,
-                        builder: (context, followLink) {
-                          return TextButton(
-                          onPressed: followLink,
-                          child: const Text(
-                            'Agree to Privacy Policy and Terms of use',
-                            style: TextStyle(color: Colors.blue, fontSize: 16),
-                          ),
-                        );
-                        },
-                        uri: Uri.parse('https://sites.google.com/view/shopvista-privacy-policy/home'),
-                      )
-                    ],
-                  ),
-                  sign(onTap: () {
-                    if(_formKey.currentState!.validate()){
-                      signUp();
-                    }
-                  },),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  const Divider(),
-                  const Text('Or Sign Up with '),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => AuthService().signInWithGoogle().then((userCredentials) {
-                            if(userCredentials != null){
-                              print('successfully logged in using google');
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationMenu(),));
-                            }else{
-                              print('error while registering user using google');
-                            }
-                          } ).catchError((error){
-                            print('Error form firebase $error');
-                          }),
-                          child: Container(
-                            child: Image.asset("assets/icons8-google-48.png"),
+    return ModalProgressHUD(
+      opacity: 0.5,
+      inAsyncCall: isLoading,
+      child: Scaffold(
+          appBar: AppBar(),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                            child: SignTextFeild(
+                              errorMsg: "Enter your first name",
+                                emailController: _firstnameController,
+                                icon: const Icon(Icons.person),
+                                hint: 'First Name')),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: SignTextFeild(
+                                errorMsg: 'Enter your last name',
+                                emailController: _lastnameController,
+                                icon: const Icon(Icons.person),
+                                hint: 'Last Name')),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SignTextFeild(
+                      errorMsg: "Enter your desired username",
+                        emailController: _usernameController,
+                        icon: const Icon(Icons.person_2_sharp),
+                        hint: 'Username'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SignTextFeild(
+                      errorMsg: "Email can't be empty",
+                        emailController: _emailController,
+                        icon: const Icon(Icons.email_outlined),
+                        hint: 'E-Mail'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SignTextFeild(
+                      errorMsg: "Enter your phone number",
+                        emailController: _phoneNumberController,
+                        icon: const Icon(Icons.phone_android_sharp),
+                        hint: 'Phone Number'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SignTextFeild(
+                      errorMsg: "Enter your password",
+                        emailController: _passwordController,
+                        icon: const Icon(Icons.password),
+                        hint: 'Password'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SignTextFeild(
+                      errorMsg: "Again confirm your password",
+                        emailController: _confirmPassController,
+                        icon: const Icon(Icons.password_sharp),
+                        hint: 'Confirm Password'),
+                    Row(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Checkbox(
+                          value: checkedVal,
+                          onChanged: (value) {
+                            setState(() {
+                              checkedVal = value!;
+                            });
+                          },
+                          activeColor: Colors.blue,
+                        ),
+                        Link(
+                          target: LinkTarget.self,
+                          builder: (context, followLink) {
+                            return TextButton(
+                            onPressed: followLink,
+                            child: const Text(
+                              'Agree to Privacy Policy and Terms of use',
+                              style: TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          );
+                          },
+                          uri: Uri.parse('https://sites.google.com/view/shopvista-privacy-policy/home'),
+                        )
+                      ],
+                    ),
+                    sign(onTap: () {
+                      if(_formKey.currentState!.validate() && _passwordController.text == _confirmPassController.text){
+                        signUp();
+                      }else{
+                        CustomSnackBar().showErrorSnackBar(context, "Passwords can't be different");
+                      }
+                    },),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    const Divider(),
+                    const Text('Or Sign Up with '),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => AuthService().signInWithGoogle().then((userCredentials) {
+                              if(userCredentials != null){
+                                print('successfully logged in using google');
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationMenu(),));
+                              }else{
+                                print('error while registering user using google');
+                              }
+                            } ).catchError((error){
+                              print('Error form firebase $error');
+                            }),
+                            child: Container(
+                              child: Image.asset("assets/icons8-google-48.png"),
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () =>
-                              FaceBookAuthServices().signInWithFacebook(),
-                          child: Container(
-                            child: Image.asset("assets/icons8-facebook-48.png"),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () =>
+                                FaceBookAuthServices().signInWithFacebook(),
+                            child: Container(
+                              child: Image.asset("assets/icons8-facebook-48.png"),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 30,
-                      )
-                    ],
-                  )
-                ],
+                        const SizedBox(
+                          width: 30,
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ));
+          )),
+    );
   }
   void signUp() async {
+
+    setState(() {
+      isLoading = true;
+    });
+
     String userName = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
@@ -204,6 +218,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     User? user;
     // Perform email/password sign-up
     user = await _auth.signUpWithEmailandPassword(email, password, context, userName,  firstName, lastName, '', int.parse(phoneNumber));
+
+
+    setState(() {
+      isLoading = false;
+    });
 
     // If user is null, email/password sign-up failed
     if (user == null) {

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shop_vista/application/home/products/products_bloc.dart';
 import 'package:shop_vista/domain/home/products/model/products.dart';
+import 'package:share_plus/share_plus.dart';
 
 class TRatingandShare extends StatelessWidget {
   const TRatingandShare({
@@ -44,10 +45,9 @@ class TRatingandShare extends StatelessWidget {
                   ),
                 ],
               ),
-              const Icon(
-                Icons.share,
-                size: 20,
-              )
+              IconButton(onPressed: (){
+                Share.share("https://www.amazon.com/dp/B0D3G9F3YK/ref=apps_sf_sta ");
+              }, icon: Icon(Icons.share,))
             ],
           );
         }

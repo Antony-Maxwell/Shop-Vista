@@ -6,14 +6,14 @@ import 'package:shop_vista/presentation/widgets/home_widgets/rounded_image.dart'
 
 class BrandContainer extends StatelessWidget {
   const BrandContainer({
-    super.key,
+    Key? key,
     required this.height,
     this.image,
     required this.isAvailable,
     required this.brandLogo,
     required this.brandName,
     required this.id,
-  });
+  }) : super(key: key);
 
   final double height;
   final image;
@@ -36,6 +36,7 @@ class BrandContainer extends StatelessWidget {
         );
       },
       child: Container(
+        width: double.infinity,
         height: height,
         decoration: dark
             ? BoxDecoration(
@@ -61,13 +62,15 @@ class BrandContainer extends StatelessWidget {
                     width: 5,
                   ),
                   SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: Center(
-                          child: CachedNetworkImage(
+                    height: 50,
+                    width: 50,
+                    child: Center(
+                      child: CachedNetworkImage(
                         imageUrl: brandLogo,
                         fit: BoxFit.cover,
-                      ))),
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     width: 5,
                   ),
@@ -85,35 +88,34 @@ class BrandContainer extends StatelessWidget {
                     Icons.verified,
                     color: Colors.blue,
                     size: 18,
-                  )
+                  ),
                 ],
               ),
-              isAvailable
-                  ? Row(
-                      children: List.generate(
-                        image.length,
-                        (index) => Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            height: 130,
-                            width: 109,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TRoundedImage(
-                              imageUrl: image[index],
-                              isNetworkImage: true,
-                              width: 109,
-                              height: 130,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+              if (isAvailable)
+                Row(
+                  children: List.generate(
+                    image.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        height: 130,
+                        width: 109,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: TRoundedImage(
+                          imageUrl: image[index],
+                          isNetworkImage: true,
+                          width: 109,
+                          height: 130,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    )
-                  : const SizedBox()
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

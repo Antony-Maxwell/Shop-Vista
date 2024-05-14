@@ -23,14 +23,13 @@ class FeraturedBrands extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Expanded(
-            child: BrandContainer(
-              id: id[index].id,
-              brandLogo: brandLogo[index].image,
-              brandName: brandName[index].name,
-          height: 45,
-          isAvailable: false,
-        )),
+        child: BrandContainer(
+          id: id[index].id,
+          brandLogo: brandLogo[index].image,
+          brandName: brandName[index].name,
+                  height: 45,
+                  isAvailable: false,
+                ),
       ),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

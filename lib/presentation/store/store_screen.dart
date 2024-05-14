@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:shop_vista/application/home/user_bloc/user_bloc.dart';
 import 'package:shop_vista/application/store/brand_bloc/brand_bloc.dart';
 import 'package:shop_vista/helpers/helper.dart';
+import 'package:shop_vista/presentation/home/cart/cart_screen.dart';
 import 'package:shop_vista/presentation/widgets/appbar_widgets/appbar.dart';
 import 'package:shop_vista/presentation/widgets/appbar_widgets/tabbar.dart';
 import 'package:shop_vista/presentation/widgets/product_cart/cart_menu_icon.dart';
@@ -25,12 +27,20 @@ class StoreScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           action: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child:
-                  TCartCounterIcon(
-                    userId: 00,
-                    onPressed: () {}, iconColor: Colors.black),
+            BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if(state.isLoading){
+                  return SizedBox();
+                }
+                return Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child:
+                              TCartCounterIcon(
+                                userId: 00,
+                                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CartScreen(userId: state.user.userId),)), 
+                                iconColor: Colors.black),
+                        );
+              },
             )
           ],
         ),

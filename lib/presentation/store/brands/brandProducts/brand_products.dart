@@ -82,6 +82,7 @@ class BrandProducts extends StatelessWidget {
                                   ? Colors.red
                                   : Colors.grey;
                               return TProductCardWidget(
+                                stockCount: product.stock,
                                 productId: product.id,
                                 mainImage: product.thumbnail!,
                                 subImages: product.images!,
